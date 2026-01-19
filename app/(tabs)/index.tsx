@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import type { GestureResponderEvent, ListRenderItemInfo } from 'react-native';
+import type { ListRenderItemInfo } from 'react-native';
 import {
   FlatList,
   Modal,
@@ -80,13 +80,10 @@ const ClassCard: React.FC<ClassCardProps> = React.memo(({ item, onPress, onBookP
   const handlePress = useCallback(() => {
     onPress(item.id);
   }, [item.id, onPress]);
-  const handleBookPress = useCallback(
-    (event: GestureResponderEvent) => {
-      event.stopPropagation();
-      onBookPress(item.id);
-    },
-    [item.id, onBookPress],
-  );
+  const handleBookPress = useCallback(() => {
+    onPress(item.id);
+    onBookPress(item.id);
+  }, [item.id, onBookPress, onPress]);
 
   return (
     <TouchableOpacity style={styles.classCard} onPress={handlePress} activeOpacity={0.9}>

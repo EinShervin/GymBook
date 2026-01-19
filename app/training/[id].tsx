@@ -11,8 +11,7 @@ interface TrainingDetail {
   title: string;
   highlight: string;
   duration: string;
-  capacityLabel: string;
-  available: number;
+  booked: number;
   capacity: number;
   trainerName: string;
   trainerBadge: string;
@@ -27,8 +26,7 @@ const trainingData: Record<string, TrainingDetail> = {
     title: 'Muay Thai',
     highlight: 'Technik',
     duration: '60 Min',
-    capacityLabel: '40 Plätze gesamt',
-    available: 12,
+    booked: 28,
     capacity: 40,
     trainerName: 'Alex Rivers',
     trainerBadge: 'Pro',
@@ -42,8 +40,7 @@ const trainingData: Record<string, TrainingDetail> = {
     title: 'Muay Thai',
     highlight: 'Technik',
     duration: '60 Min',
-    capacityLabel: '40 Plätze gesamt',
-    available: 12,
+    booked: 28,
     capacity: 40,
     trainerName: 'Alex Rivers',
     trainerBadge: 'Pro',
@@ -57,8 +54,7 @@ const trainingData: Record<string, TrainingDetail> = {
     title: 'Muay Thai',
     highlight: 'Technik',
     duration: '60 Min',
-    capacityLabel: '40 Plätze gesamt',
-    available: 12,
+    booked: 28,
     capacity: 40,
     trainerName: 'Alex Rivers',
     trainerBadge: 'Pro',
@@ -70,7 +66,11 @@ const trainingData: Record<string, TrainingDetail> = {
 const TrainingDetailScreen: React.FC = () => {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { id } = useLocalSearchParams<{ id?: string }>();
+  const { id, booked, capacity } = useLocalSearchParams<{
+    id?: string;
+    booked?: string;
+    capacity?: string;
+  }>();
 
   const training = useMemo<TrainingDetail>(() => {
     if (id && trainingData[id]) {
@@ -79,7 +79,18 @@ const TrainingDetailScreen: React.FC = () => {
     return trainingData['technique-morning'];
   }, [id]);
 
-  const availabilityRatio = training.available / training.capacity;
+  const bookedValue = useMemo(() => {
+    const parsed = Number(booked);
+    return Number.isFinite(parsed) ? parsed : training.booked;
+  }, [booked, training.booked]);
+
+  const capacityValue = useMemo(() => {
+    const parsed = Number(capacity);
+    return Number.isFinite(parsed) ? parsed : training.capacity;
+  }, [capacity, training.capacity]);
+
+  const availableValue = Math.max(capacityValue - bookedValue, 0);
+  const availabilityRatio = capacityValue > 0 ? availableValue / capacityValue : 0;
 
   const handleBackPress = useCallback(() => {
     router.back();
@@ -120,10 +131,10 @@ const TrainingDetailScreen: React.FC = () => {
               <Feather name="clock" size={16} color="#8a8a8f" />
               <Text style={styles.metaText}>{training.duration}</Text>
             </View>
-            <View style={styles.metaItem}>
-              <Feather name="users" size={16} color="#8a8a8f" />
-              <Text style={styles.metaText}>{training.capacityLabel}</Text>
-            </View>
+          <View style={styles.metaItem}>
+            <Feather name="users" size={16} color="#8a8a8f" />
+            <Text style={styles.metaText}>{`${capacityValue} Plätze gesamt`}</Text>
+          </View>
           </View>
         </View>
 
@@ -131,8 +142,8 @@ const TrainingDetailScreen: React.FC = () => {
           <View style={styles.availabilityGlow} />
           <Text style={styles.availabilityLabel}>VERFÜGBARKEIT</Text>
           <View style={styles.availabilityRow}>
-            <Text style={styles.availabilityValue}>{training.available}</Text>
-            <Text style={styles.availabilityTotal}>/ {training.capacity}</Text>
+            <Text style={styles.availabilityValue}>{availableValue}</Text>
+            <Text style={styles.availabilityTotal}>/ {capacityValue}</Text>
             <Text style={styles.availabilityBadge}>Plätze frei</Text>
           </View>
           <View style={styles.progressTrack}>

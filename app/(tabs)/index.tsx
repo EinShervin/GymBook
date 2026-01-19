@@ -71,19 +71,19 @@ DayChip.displayName = 'DayChip';
 
 interface ClassCardProps {
   item: ClassItem;
-  onPress: (classId: string) => void;
-  onBookPress: (classId: string) => void;
+  onPress: (classItem: ClassItem) => void;
+  onBookPress: (classItem: ClassItem) => void;
 }
 
 const ClassCard: React.FC<ClassCardProps> = React.memo(({ item, onPress, onBookPress }) => {
   const fillPercentage = useMemo(() => (item.booked / item.capacity) * 100, [item]);
   const handlePress = useCallback(() => {
-    onPress(item.id);
-  }, [item.id, onPress]);
+    onPress(item);
+  }, [item, onPress]);
   const handleBookPress = useCallback(() => {
-    onPress(item.id);
-    onBookPress(item.id);
-  }, [item.id, onBookPress, onPress]);
+    onPress(item);
+    onBookPress(item);
+  }, [item, onBookPress, onPress]);
 
   return (
     <TouchableOpacity style={styles.classCard} onPress={handlePress} activeOpacity={0.9}>
@@ -203,14 +203,21 @@ const HomeScreen: React.FC = () => {
   }, []);
 
   const handleClassPress = useCallback(
-    (classId: string) => {
-      router.push({ pathname: '/training/[id]', params: { id: classId } });
+    (classItem: ClassItem) => {
+      router.push({
+        pathname: '/training/[id]',
+        params: {
+          id: classItem.id,
+          booked: classItem.booked.toString(),
+          capacity: classItem.capacity.toString(),
+        },
+      });
     },
     [router],
   );
 
-  const handleBookPress = useCallback((classId: string) => {
-    console.log(`Booked class: ${classId}`);
+  const handleBookPress = useCallback((classItem: ClassItem) => {
+    console.log(`Booked class: ${classItem.id}`);
   }, []);
 
   const handleCalendarOpen = useCallback(() => {

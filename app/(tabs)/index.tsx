@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import type { ListRenderItemInfo } from 'react-native';
+import type { GestureResponderEvent, ListRenderItemInfo } from 'react-native';
 import {
   FlatList,
   Modal,
@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface DayItem {
@@ -70,17 +71,25 @@ DayChip.displayName = 'DayChip';
 
 interface ClassCardProps {
   item: ClassItem;
+  onPress: (classId: string) => void;
   onBookPress: (classId: string) => void;
 }
 
-const ClassCard: React.FC<ClassCardProps> = React.memo(({ item, onBookPress }) => {
+const ClassCard: React.FC<ClassCardProps> = React.memo(({ item, onPress, onBookPress }) => {
   const fillPercentage = useMemo(() => (item.booked / item.capacity) * 100, [item]);
-  const handleBookPress = useCallback(() => {
-    onBookPress(item.id);
-  }, [item.id, onBookPress]);
+  const handlePress = useCallback(() => {
+    onPress(item.id);
+  }, [item.id, onPress]);
+  const handleBookPress = useCallback(
+    (event: GestureResponderEvent) => {
+      event.stopPropagation();
+      onBookPress(item.id);
+    },
+    [item.id, onBookPress],
+  );
 
   return (
-    <View style={styles.classCard}>
+    <TouchableOpacity style={styles.classCard} onPress={handlePress} activeOpacity={0.9}>
       <Text style={[styles.classTime, { color: item.accent }]}>{item.time}</Text>
       <Text style={styles.classTitle}>{item.title}</Text>
       <Text style={styles.classCoach}>with {item.coach}</Text>
@@ -96,7 +105,7 @@ const ClassCard: React.FC<ClassCardProps> = React.memo(({ item, onBookPress }) =
       <TouchableOpacity style={styles.bookButton} onPress={handleBookPress} activeOpacity={0.85}>
         <Text style={styles.bookButtonText}>BOOK CLASS</Text>
       </TouchableOpacity>
-    </View>
+    </TouchableOpacity>
   );
 });
 
@@ -163,6 +172,7 @@ const classData: ClassItem[] = [
 ];
 
 const HomeScreen: React.FC = () => {
+  const router = useRouter();
   const [selectedDayId, setSelectedDayId] = useState<string>('mon');
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -195,6 +205,13 @@ const HomeScreen: React.FC = () => {
     setSelectedDayId(dayId);
   }, []);
 
+  const handleClassPress = useCallback(
+    (classId: string) => {
+      router.push({ pathname: '/training/[id]', params: { id: classId } });
+    },
+    [router],
+  );
+
   const handleBookPress = useCallback((classId: string) => {
     console.log(`Booked class: ${classId}`);
   }, []);
@@ -224,9 +241,9 @@ const HomeScreen: React.FC = () => {
 
   const renderClassItem = useCallback(
     ({ item }: ListRenderItemInfo<ClassItem>) => (
-      <ClassCard item={item} onBookPress={handleBookPress} />
+      <ClassCard item={item} onPress={handleClassPress} onBookPress={handleBookPress} />
     ),
-    [handleBookPress],
+    [handleBookPress, handleClassPress],
   );
 
   const renderCalendarItem = useCallback(

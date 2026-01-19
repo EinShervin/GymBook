@@ -174,7 +174,8 @@ const HomeScreen: React.FC = () => {
           keyExtractor={(item) => item.id}
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.dayList}
+          style={styles.dayList}
+          contentContainerStyle={styles.dayListContent}
           removeClippedSubviews
           maxToRenderPerBatch={6}
           windowSize={5}
@@ -186,7 +187,6 @@ const HomeScreen: React.FC = () => {
           renderItem={renderClassItem}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
-          style={styles.classList}
           contentContainerStyle={styles.classListContent}
         />
       </View>
@@ -235,7 +235,9 @@ const styles = StyleSheet.create({
     borderColor: '#2a2a2f',
   },
   dayList: {
-    paddingVertical: 8,
+    marginBottom: 8,
+  },
+  dayListContent: {
     paddingRight: 12,
     gap: 12,
   },
@@ -278,11 +280,8 @@ const styles = StyleSheet.create({
     color: '#f7f7f7',
     fontWeight: '600',
   },
-  classList: {
-    flex: 1,
-  },
   classListContent: {
-    paddingTop: 16,
+    paddingTop: 8,
     paddingBottom: 24,
     gap: 16,
   },

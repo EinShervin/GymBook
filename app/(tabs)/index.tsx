@@ -292,8 +292,8 @@ const HomeScreen: React.FC = () => {
               </TouchableOpacity>
             </View>
             <View style={styles.calendarWeekRow}>
-              {calendarWeekdays.map((day) => (
-                <Text key={day} style={styles.calendarWeekday}>
+              {calendarWeekdays.map((day, index) => (
+                <Text key={`${day}-${index}`} style={styles.calendarWeekday}>
                   {day}
                 </Text>
               ))}

@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface DayItem {
   id: string;
@@ -131,6 +132,7 @@ const classData: ClassItem[] = [
 
 const HomeScreen: React.FC = () => {
   const [selectedDayId, setSelectedDayId] = useState<string>('mon');
+  const insets = useSafeAreaInsets();
 
   const handleDaySelect = useCallback((dayId: string) => {
     setSelectedDayId(dayId);
@@ -157,7 +159,7 @@ const HomeScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" />
-      <View style={styles.container}>
+      <View style={[styles.container, { paddingTop: insets.top + 8 }]}>
         <View style={styles.headerRow}>
           <View>
             <Text style={styles.title}>MUAY THAI</Text>
@@ -188,16 +190,6 @@ const HomeScreen: React.FC = () => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.classList}
         />
-      </View>
-
-      <View style={styles.subscriptionCard}>
-        <View style={styles.subscriptionIcon}>
-          <Feather name="star" size={18} color="#14b8c4" />
-        </View>
-        <View>
-          <Text style={styles.subscriptionTitle}>Active Subscription</Text>
-          <Text style={styles.subscriptionSubtitle}>Pro Member • Unlimited Bookings</Text>
-        </View>
       </View>
     </SafeAreaView>
   );
@@ -288,7 +280,7 @@ const styles = StyleSheet.create({
   },
   classList: {
     paddingTop: 16,
-    paddingBottom: 120,
+    paddingBottom: 32,
     gap: 16,
   },
   classCard: {
@@ -354,38 +346,5 @@ const styles = StyleSheet.create({
     letterSpacing: 2,
     fontWeight: '700',
     color: '#0b0b0d',
-  },
-  subscriptionCard: {
-    position: 'absolute',
-    left: 20,
-    right: 20,
-    bottom: 24,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    padding: 16,
-    borderRadius: 28,
-    backgroundColor: '#b0b0b6',
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowRadius: 12,
-  },
-  subscriptionIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#212127',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  subscriptionTitle: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#0b0b0d',
-  },
-  subscriptionSubtitle: {
-    marginTop: 2,
-    fontSize: 12,
-    color: '#2c2c2f',
   },
 });

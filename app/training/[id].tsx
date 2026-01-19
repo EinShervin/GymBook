@@ -103,7 +103,7 @@ const TrainingDetailScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <StatusBar barStyle="light-content" />
-      <View style={styles.headerOverlay}>
+      <View style={[styles.headerOverlay, { paddingTop: insets.top + 10 }]}>
         <TouchableOpacity style={styles.headerButton} onPress={handleBackPress} activeOpacity={0.8}>
           <Feather name="chevron-left" size={20} color="#ffffff" />
         </TouchableOpacity>
@@ -113,7 +113,10 @@ const TrainingDetailScreen: React.FC = () => {
       </View>
 
       <ScrollView
-        contentContainerStyle={[styles.scrollContent, { paddingBottom: 220 + insets.bottom }]}
+        contentContainerStyle={[
+          styles.scrollContent,
+          { paddingTop: insets.top + 84, paddingBottom: 220 + insets.bottom },
+        ]}
         showsVerticalScrollIndicator={false}>
         <View style={styles.hero}>
           <MaterialIcons name="sports-mma" size={320} color="rgba(255,255,255,0.03)" style={styles.heroIcon} />
@@ -131,10 +134,10 @@ const TrainingDetailScreen: React.FC = () => {
               <Feather name="clock" size={16} color="#8a8a8f" />
               <Text style={styles.metaText}>{training.duration}</Text>
             </View>
-          <View style={styles.metaItem}>
-            <Feather name="users" size={16} color="#8a8a8f" />
-            <Text style={styles.metaText}>{`${capacityValue} Plätze gesamt`}</Text>
-          </View>
+            <View style={styles.metaItem}>
+              <Feather name="users" size={16} color="#8a8a8f" />
+              <Text style={styles.metaText}>{`${capacityValue} Plätze gesamt`}</Text>
+            </View>
           </View>
         </View>
 

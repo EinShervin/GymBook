@@ -1,98 +1,391 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import React, { useCallback, useMemo, useState } from 'react';
+import type { ListRenderItemInfo } from 'react-native';
+import {
+  FlatList,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { Feather } from '@expo/vector-icons';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
-
-export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
-
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+interface DayItem {
+  id: string;
+  label: string;
+  date: string;
 }
 
+interface ClassItem {
+  id: string;
+  time: string;
+  title: string;
+  coach: string;
+  booked: number;
+  capacity: number;
+  accent: string;
+}
+
+interface DayChipProps {
+  day: DayItem;
+  isSelected: boolean;
+  onSelect: (dayId: string) => void;
+}
+
+const DayChip: React.FC<DayChipProps> = React.memo(({ day, isSelected, onSelect }) => {
+  const handlePress = useCallback(() => {
+    onSelect(day.id);
+  }, [day.id, onSelect]);
+
+  return (
+    <TouchableOpacity
+      style={[styles.dayChip, isSelected ? styles.dayChipSelected : styles.dayChipDefault]}
+      onPress={handlePress}
+      activeOpacity={0.8}>
+      <Text style={[styles.dayLabel, isSelected ? styles.dayLabelSelected : styles.dayLabelDefault]}>
+        {day.label}
+      </Text>
+      <Text style={[styles.dayDate, isSelected ? styles.dayDateSelected : styles.dayDateDefault]}>
+        {day.date}
+      </Text>
+    </TouchableOpacity>
+  );
+});
+
+DayChip.displayName = 'DayChip';
+
+interface ClassCardProps {
+  item: ClassItem;
+  onBookPress: (classId: string) => void;
+}
+
+const ClassCard: React.FC<ClassCardProps> = React.memo(({ item, onBookPress }) => {
+  const fillPercentage = useMemo(() => (item.booked / item.capacity) * 100, [item]);
+  const handleBookPress = useCallback(() => {
+    onBookPress(item.id);
+  }, [item.id, onBookPress]);
+
+  return (
+    <View style={styles.classCard}>
+      <Text style={[styles.classTime, { color: item.accent }]}>{item.time}</Text>
+      <Text style={styles.classTitle}>{item.title}</Text>
+      <Text style={styles.classCoach}>with {item.coach}</Text>
+      <View style={styles.capacityRow}>
+        <Text style={styles.capacityLabel}>Capacity</Text>
+        <Text style={[styles.capacityValue, { color: item.accent }]}>
+          {item.booked} / {item.capacity} booked
+        </Text>
+      </View>
+      <View style={styles.progressTrack}>
+        <View style={[styles.progressFill, { width: `${fillPercentage}%`, backgroundColor: item.accent }]} />
+      </View>
+      <TouchableOpacity style={styles.bookButton} onPress={handleBookPress} activeOpacity={0.85}>
+        <Text style={styles.bookButtonText}>BOOK CLASS</Text>
+      </TouchableOpacity>
+    </View>
+  );
+});
+
+ClassCard.displayName = 'ClassCard';
+
+const dayData: DayItem[] = [
+  { id: 'mon', label: 'MON', date: '12' },
+  { id: 'tue', label: 'TUE', date: '13' },
+  { id: 'wed', label: 'WED', date: '14' },
+  { id: 'thu', label: 'THU', date: '15' },
+  { id: 'fri', label: 'FRI', date: '16' },
+  { id: 'sat', label: 'SAT', date: '17' },
+  { id: 'sun', label: 'SUN', date: '18' },
+];
+
+const classData: ClassItem[] = [
+  {
+    id: 'technique-morning',
+    time: '07:00 — 08:30',
+    title: 'Muay Thai Technik',
+    coach: 'Kru Somchai',
+    booked: 24,
+    capacity: 40,
+    accent: '#1ad1d1',
+  },
+  {
+    id: 'sparring-midday',
+    time: '12:00 — 13:30',
+    title: 'Muay Thai Sparring',
+    coach: 'Kru Anan',
+    booked: 38,
+    capacity: 40,
+    accent: '#e35b5b',
+  },
+  {
+    id: 'technique-evening',
+    time: '17:30 — 19:00',
+    title: 'Muay Thai Technik',
+    coach: 'Kru Malee',
+    booked: 12,
+    capacity: 40,
+    accent: '#1ad1d1',
+  },
+];
+
+const HomeScreen: React.FC = () => {
+  const [selectedDayId, setSelectedDayId] = useState<string>('mon');
+
+  const handleDaySelect = useCallback((dayId: string) => {
+    setSelectedDayId(dayId);
+  }, []);
+
+  const handleBookPress = useCallback((classId: string) => {
+    console.log(`Booked class: ${classId}`);
+  }, []);
+
+  const renderDayItem = useCallback(
+    ({ item }: ListRenderItemInfo<DayItem>) => (
+      <DayChip day={item} isSelected={item.id === selectedDayId} onSelect={handleDaySelect} />
+    ),
+    [handleDaySelect, selectedDayId],
+  );
+
+  const renderClassItem = useCallback(
+    ({ item }: ListRenderItemInfo<ClassItem>) => (
+      <ClassCard item={item} onBookPress={handleBookPress} />
+    ),
+    [handleBookPress],
+  );
+
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="light-content" />
+      <View style={styles.container}>
+        <View style={styles.headerRow}>
+          <View>
+            <Text style={styles.title}>MUAY THAI</Text>
+            <Text style={styles.subtitle}>SCHEDULE OVERVIEW</Text>
+          </View>
+          <TouchableOpacity style={styles.calendarButton} activeOpacity={0.8}>
+            <Feather name="calendar" size={18} color="#f1f1f1" />
+          </TouchableOpacity>
+        </View>
+
+        <FlatList
+          data={dayData}
+          renderItem={renderDayItem}
+          keyExtractor={(item) => item.id}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.dayList}
+          removeClippedSubviews
+          maxToRenderPerBatch={6}
+          windowSize={5}
+          getItemLayout={(_, index) => ({ length: 84, offset: 84 * index, index })}
+        />
+
+        <FlatList
+          data={classData}
+          renderItem={renderClassItem}
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.classList}
+        />
+      </View>
+
+      <View style={styles.subscriptionCard}>
+        <View style={styles.subscriptionIcon}>
+          <Feather name="star" size={18} color="#14b8c4" />
+        </View>
+        <View>
+          <Text style={styles.subscriptionTitle}>Active Subscription</Text>
+          <Text style={styles.subscriptionSubtitle}>Pro Member • Unlimited Bookings</Text>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default HomeScreen;
+
 const styles = StyleSheet.create({
-  titleContainer: {
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#0c0c0e',
+  },
+  container: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+  headerRow: {
+    marginTop: 12,
+    marginBottom: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#f7f7f7',
+    letterSpacing: 1,
+  },
+  subtitle: {
+    marginTop: 4,
+    fontSize: 12,
+    letterSpacing: 3,
+    color: '#16c5d1',
+  },
+  calendarButton: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: '#1a1a1d',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#2a2a2f',
+  },
+  dayList: {
+    paddingBottom: 8,
+    gap: 12,
+  },
+  dayChip: {
+    width: 72,
+    height: 92,
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  dayChipSelected: {
+    backgroundColor: '#f7f7f7',
+  },
+  dayChipDefault: {
+    backgroundColor: '#121215',
+    borderWidth: 1,
+    borderColor: '#2b2b31',
+  },
+  dayLabel: {
+    fontSize: 12,
+    letterSpacing: 1.2,
+    marginBottom: 6,
+  },
+  dayLabelSelected: {
+    color: '#0b0b0d',
+    fontWeight: '700',
+  },
+  dayLabelDefault: {
+    color: '#6b6b72',
+    fontWeight: '600',
+  },
+  dayDate: {
+    fontSize: 22,
+  },
+  dayDateSelected: {
+    color: '#0b0b0d',
+    fontWeight: '700',
+  },
+  dayDateDefault: {
+    color: '#f7f7f7',
+    fontWeight: '600',
+  },
+  classList: {
+    paddingTop: 16,
+    paddingBottom: 120,
+    gap: 16,
+  },
+  classCard: {
+    backgroundColor: '#141417',
+    borderRadius: 28,
+    padding: 20,
+    borderWidth: 1,
+    borderColor: '#222229',
+    shadowColor: '#000',
+    shadowOpacity: 0.4,
+    shadowRadius: 24,
+    elevation: 4,
+  },
+  classTime: {
+    fontSize: 13,
+    fontWeight: '600',
+    letterSpacing: 0.6,
+  },
+  classTitle: {
+    marginTop: 8,
+    fontSize: 20,
+    color: '#f7f7f7',
+    fontWeight: '700',
+  },
+  classCoach: {
+    marginTop: 4,
+    fontSize: 14,
+    color: '#8b8b94',
+  },
+  capacityRow: {
+    marginTop: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  capacityLabel: {
+    fontSize: 12,
+    color: '#6d6d75',
+  },
+  capacityValue: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  progressTrack: {
+    marginTop: 10,
+    height: 6,
+    borderRadius: 999,
+    backgroundColor: '#24242a',
+    overflow: 'hidden',
+  },
+  progressFill: {
+    height: 6,
+    borderRadius: 999,
+  },
+  bookButton: {
+    marginTop: 18,
+    backgroundColor: '#f7f7f7',
+    paddingVertical: 14,
+    borderRadius: 999,
+    alignItems: 'center',
+  },
+  bookButtonText: {
+    fontSize: 12,
+    letterSpacing: 2,
+    fontWeight: '700',
+    color: '#0b0b0d',
+  },
+  subscriptionCard: {
+    position: 'absolute',
+    left: 20,
+    right: 20,
+    bottom: 24,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 12,
+    padding: 16,
+    borderRadius: 28,
+    backgroundColor: '#b0b0b6',
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  subscriptionIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#212127',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  subscriptionTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#0b0b0d',
+  },
+  subscriptionSubtitle: {
+    marginTop: 2,
+    fontSize: 12,
+    color: '#2c2c2f',
   },
 });

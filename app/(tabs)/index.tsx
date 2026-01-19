@@ -122,15 +122,13 @@ CalendarDayCell.displayName = 'CalendarDayCell';
 
 const calendarWeekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
-const dayData: DayItem[] = [
-  { id: 'mon', label: 'MON', date: '12' },
-  { id: 'tue', label: 'TUE', date: '13' },
-  { id: 'wed', label: 'WED', date: '14' },
-  { id: 'thu', label: 'THU', date: '15' },
-  { id: 'fri', label: 'FRI', date: '16' },
-  { id: 'sat', label: 'SAT', date: '17' },
-  { id: 'sun', label: 'SUN', date: '18' },
-];
+const weekdayFormatter = new Intl.DateTimeFormat('en-US', { weekday: 'short' });
+const toDateId = (date: Date) => {
+  const year = date.getFullYear();
+  const month = `${date.getMonth() + 1}`.padStart(2, '0');
+  const day = `${date.getDate()}`.padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
 
 const classData: ClassItem[] = [
   {
@@ -163,7 +161,6 @@ const classData: ClassItem[] = [
 ];
 
 const HomeScreen: React.FC = () => {
-  const [selectedDayId, setSelectedDayId] = useState<string>('mon');
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
@@ -171,6 +168,25 @@ const HomeScreen: React.FC = () => {
     selectedDate,
   ]);
   const calendarYear = useMemo(() => selectedDate.getFullYear(), [selectedDate]);
+
+  const dayData = useMemo<DayItem[]>(() => {
+    const baseDate = new Date(selectedDate);
+    baseDate.setHours(0, 0, 0, 0);
+    const startDate = new Date(baseDate);
+    startDate.setDate(baseDate.getDate() - baseDate.getDay());
+
+    return Array.from({ length: 7 }, (_, index) => {
+      const dayDate = new Date(startDate);
+      dayDate.setDate(startDate.getDate() + index);
+      return {
+        id: toDateId(dayDate),
+        label: weekdayFormatter.format(dayDate).toUpperCase(),
+        date: dayDate.getDate().toString(),
+      };
+    });
+  }, [selectedDate]);
+
+  const selectedDayId = useMemo(() => toDateId(selectedDate), [selectedDate]);
 
   const calendarDays = useMemo<CalendarDay[]>(() => {
     const year = selectedDate.getFullYear();
@@ -192,7 +208,10 @@ const HomeScreen: React.FC = () => {
   }, [selectedDate]);
 
   const handleDaySelect = useCallback((dayId: string) => {
-    setSelectedDayId(dayId);
+    const nextDate = new Date(`${dayId}T00:00:00`);
+    if (!Number.isNaN(nextDate.getTime())) {
+      setSelectedDate(nextDate);
+    }
   }, []);
 
   const handleBookPress = useCallback((classId: string) => {
@@ -353,7 +372,7 @@ const styles = StyleSheet.create({
     borderColor: '#2a2a2f',
   },
   dayList: {
-    marginBottom: 8,
+    marginBottom: 4,
   },
   dayListContent: {
     paddingRight: 12,
@@ -399,7 +418,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   classListContent: {
-    paddingTop: 8,
+    paddingTop: 0,
     paddingBottom: 24,
     gap: 16,
   },

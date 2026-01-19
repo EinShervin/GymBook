@@ -100,6 +100,10 @@ const TrainingDetailScreen: React.FC = () => {
     console.log('Share training');
   }, []);
 
+  const handleConfirmPress = useCallback(() => {
+    router.push('/training/booking-success');
+  }, [router]);
+
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <StatusBar barStyle="light-content" />
@@ -174,7 +178,7 @@ const TrainingDetailScreen: React.FC = () => {
           <Feather name="shield" size={12} color="#1fc3d1" />
           <Text style={styles.bottomStatusText}>Abo-Zugang aktiv</Text>
         </View>
-        <TouchableOpacity style={styles.confirmButton} activeOpacity={0.9}>
+        <TouchableOpacity style={styles.confirmButton} activeOpacity={0.9} onPress={handleConfirmPress}>
           <Text style={styles.confirmButtonText}>Buchung Bestätigen</Text>
         </TouchableOpacity>
       </View>

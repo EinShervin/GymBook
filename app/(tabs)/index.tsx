@@ -2,7 +2,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import type { ListRenderItemInfo } from 'react-native';
 import {
   FlatList,
-  SafeAreaView,
   StatusBar,
   StyleSheet,
   Text,
@@ -10,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface DayItem {
   id: string;
@@ -132,7 +131,6 @@ const classData: ClassItem[] = [
 
 const HomeScreen: React.FC = () => {
   const [selectedDayId, setSelectedDayId] = useState<string>('mon');
-  const insets = useSafeAreaInsets();
 
   const handleDaySelect = useCallback((dayId: string) => {
     setSelectedDayId(dayId);
@@ -157,9 +155,9 @@ const HomeScreen: React.FC = () => {
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
       <StatusBar barStyle="light-content" />
-      <View style={[styles.container, { paddingTop: insets.top + 8 }]}>
+      <View style={styles.container}>
         <View style={styles.headerRow}>
           <View>
             <Text style={styles.title}>MUAY THAI</Text>
@@ -188,7 +186,8 @@ const HomeScreen: React.FC = () => {
           renderItem={renderClassItem}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.classList}
+          style={styles.classList}
+          contentContainerStyle={styles.classListContent}
         />
       </View>
     </SafeAreaView>
@@ -207,7 +206,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   headerRow: {
-    marginTop: 12,
+    marginTop: 4,
     marginBottom: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -236,7 +235,8 @@ const styles = StyleSheet.create({
     borderColor: '#2a2a2f',
   },
   dayList: {
-    paddingBottom: 8,
+    paddingVertical: 8,
+    paddingRight: 12,
     gap: 12,
   },
   dayChip: {
@@ -279,8 +279,11 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   classList: {
+    flex: 1,
+  },
+  classListContent: {
     paddingTop: 16,
-    paddingBottom: 32,
+    paddingBottom: 24,
     gap: 16,
   },
   classCard: {

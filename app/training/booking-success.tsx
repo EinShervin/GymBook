@@ -54,7 +54,7 @@ const BookingSuccessScreen: React.FC = () => {
         showsVerticalScrollIndicator={false}>
         <View style={styles.iconWrapper}>
           <View style={styles.iconGlow} />
-          <MaterialIcons name="check-circle" size={120} color="#16c6d4" style={styles.icon} />
+          <MaterialIcons name="check-circle" size={120} color="#4b8dff" style={styles.icon} />
         </View>
 
         <View style={styles.titleWrapper}>
@@ -75,14 +75,14 @@ const BookingSuccessScreen: React.FC = () => {
             <View style={styles.cardDetailBlock}>
               <Text style={styles.cardLabel}>Datum</Text>
               <View style={styles.cardDetailRow}>
-                <MaterialIcons name="calendar-today" size={16} color="rgba(255,255,255,0.6)" />
+                <MaterialIcons name="calendar-today" size={16} color="rgba(230,239,255,0.6)" />
                 <Text style={styles.cardDetailText}>{bookingSummary.date}</Text>
               </View>
             </View>
             <View style={styles.cardDetailBlock}>
               <Text style={styles.cardLabel}>Zeit</Text>
               <View style={styles.cardDetailRow}>
-                <MaterialIcons name="schedule" size={16} color="rgba(255,255,255,0.6)" />
+                <MaterialIcons name="schedule" size={16} color="rgba(230,239,255,0.6)" />
                 <Text style={styles.cardDetailText}>{bookingSummary.time}</Text>
               </View>
             </View>
@@ -102,7 +102,7 @@ const BookingSuccessScreen: React.FC = () => {
         </View>
 
         <View style={styles.reservedBadge}>
-          <MaterialIcons name="confirmation-number" size={16} color="#16c6d4" />
+          <MaterialIcons name="confirmation-number" size={16} color="#4b8dff" />
           <Text style={styles.reservedText}>
             Dein Platz ist reserviert <Text style={styles.reservedCount}>({bookingSummary.reservedCount})</Text>
           </Text>
@@ -111,7 +111,7 @@ const BookingSuccessScreen: React.FC = () => {
 
       <View style={[styles.bottomBar, { paddingBottom: 24 + insets.bottom }]}>
         <TouchableOpacity style={styles.secondaryButton} activeOpacity={0.8} onPress={handleCalendarPress}>
-          <MaterialIcons name="event" size={18} color="#ffffff" />
+          <MaterialIcons name="event" size={18} color="#e6efff" />
           <Text style={styles.secondaryButtonText}>Zum Kalender hinzufügen</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.primaryButton} activeOpacity={0.9} onPress={handleDonePress}>
@@ -127,7 +127,7 @@ export default BookingSuccessScreen;
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#18181b',
+    backgroundColor: '#0a1024',
   },
   scrollContent: {
     paddingHorizontal: 24,
@@ -143,13 +143,13 @@ const styles = StyleSheet.create({
     width: 140,
     height: 140,
     borderRadius: 70,
-    backgroundColor: 'rgba(0,192,209,0.18)',
-    shadowColor: '#16c6d4',
+    backgroundColor: 'rgba(75,141,255,0.2)',
+    shadowColor: '#4b8dff',
     shadowOpacity: 0.3,
     shadowRadius: 24,
   },
   icon: {
-    textShadowColor: 'rgba(22,198,212,0.6)',
+    textShadowColor: 'rgba(75,141,255,0.6)',
     textShadowRadius: 12,
   },
   titleWrapper: {
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: -1.2,
     fontStyle: 'italic',
-    color: '#ffffff',
+    color: '#e6efff',
   },
   titleAccent: {
     fontSize: 32,
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: -1.4,
     fontStyle: 'italic',
-    color: '#16c6d4',
+    color: '#4b8dff',
     marginTop: 4,
   },
   card: {
@@ -178,9 +178,9 @@ const styles = StyleSheet.create({
     marginTop: 28,
     padding: 24,
     borderRadius: 28,
-    backgroundColor: '#27272a',
+    backgroundColor: '#141f3d',
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.05)',
+    borderColor: 'rgba(230,239,255,0.08)',
     shadowColor: '#000',
     shadowOpacity: 0.35,
     shadowRadius: 24,
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     width: 160,
     height: 160,
     borderRadius: 80,
-    backgroundColor: 'rgba(22,198,212,0.08)',
+    backgroundColor: 'rgba(75,141,255,0.12)',
   },
   cardSection: {
     paddingBottom: 16,
@@ -204,18 +204,18 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 3,
     textTransform: 'uppercase',
-    color: '#16c6d4',
+    color: '#4b8dff',
     marginBottom: 6,
   },
   cardTitle: {
     fontSize: 24,
     fontWeight: '700',
     textTransform: 'uppercase',
-    color: '#ffffff',
+    color: '#e6efff',
   },
   cardDivider: {
     height: 1,
-    backgroundColor: 'rgba(255,255,255,0.08)',
+    backgroundColor: 'rgba(230,239,255,0.12)',
     marginBottom: 16,
   },
   cardDetails: {
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 2.4,
     textTransform: 'uppercase',
-    color: 'rgba(255,255,255,0.4)',
+    color: 'rgba(230,239,255,0.4)',
   },
   cardDetailRow: {
     flexDirection: 'row',
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
   cardDetailText: {
     fontSize: 18,
     fontWeight: '500',
-    color: '#ffffff',
+    color: '#e6efff',
   },
   trainerRow: {
     marginTop: 20,
@@ -252,9 +252,9 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 24,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
+    borderColor: 'rgba(230,239,255,0.16)',
     overflow: 'hidden',
-    backgroundColor: '#27272a',
+    backgroundColor: '#141f3d',
   },
   trainerAvatarImage: {
     borderRadius: 24,
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
   trainerName: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#ffffff',
+    color: '#e6efff',
     marginTop: 2,
   },
   reservedBadge: {
@@ -270,9 +270,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    backgroundColor: 'rgba(255,255,255,0.06)',
+    backgroundColor: 'rgba(230,239,255,0.1)',
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.06)',
+    borderColor: 'rgba(230,239,255,0.1)',
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 999,
@@ -282,10 +282,10 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textTransform: 'uppercase',
     letterSpacing: 0.8,
-    color: 'rgba(255,255,255,0.6)',
+    color: 'rgba(230,239,255,0.6)',
   },
   reservedCount: {
-    color: '#ffffff',
+    color: '#e6efff',
   },
   bottomBar: {
     position: 'absolute',
@@ -296,8 +296,8 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     gap: 12,
     borderTopWidth: 1,
-    borderTopColor: 'rgba(255,255,255,0.08)',
-    backgroundColor: 'rgba(24,24,27,0.95)',
+    borderTopColor: 'rgba(230,239,255,0.12)',
+    backgroundColor: 'rgba(9,16,36,0.96)',
   },
   secondaryButton: {
     flexDirection: 'row',
@@ -306,24 +306,24 @@ const styles = StyleSheet.create({
     gap: 10,
     paddingVertical: 14,
     borderRadius: 14,
-    backgroundColor: '#27272a',
+    backgroundColor: '#141f3d',
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
+    borderColor: 'rgba(230,239,255,0.12)',
   },
   secondaryButtonText: {
     fontSize: 14,
     fontWeight: '700',
     textTransform: 'uppercase',
     letterSpacing: 1,
-    color: '#ffffff',
+    color: '#e6efff',
   },
   primaryButton: {
     borderRadius: 16,
-    backgroundColor: '#16c6d4',
+    backgroundColor: '#4b8dff',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 16,
-    shadowColor: '#16c6d4',
+    shadowColor: '#4b8dff',
     shadowOpacity: 0.35,
     shadowRadius: 18,
     elevation: 4,
@@ -333,6 +333,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textTransform: 'uppercase',
     letterSpacing: 1,
-    color: '#0b0c0d',
+    color: '#081022',
   },
 });

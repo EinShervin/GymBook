@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
+import { Animated, Easing } from 'react-native';
 import {
   ImageBackground,
   ScrollView,
@@ -34,6 +35,8 @@ const BookingSuccessScreen: React.FC = () => {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id?: string }>();
+  const introProgress = useRef(new Animated.Value(0)).current;
+  const glowPulse = useRef(new Animated.Value(0)).current;
 
   const training = React.useMemo<TrainingItem>(() => {
     if (id && trainingById[id]) {
@@ -62,6 +65,64 @@ const BookingSuccessScreen: React.FC = () => {
     router.replace('/(tabs)');
   }, [router]);
 
+  useEffect(() => {
+    const introAnimation = Animated.timing(introProgress, {
+      toValue: 1,
+      duration: 700,
+      easing: Easing.out(Easing.cubic),
+      useNativeDriver: true,
+    });
+
+    const glowAnimation = Animated.loop(
+      Animated.sequence([
+        Animated.timing(glowPulse, {
+          toValue: 1,
+          duration: 1200,
+          easing: Easing.inOut(Easing.quad),
+          useNativeDriver: true,
+        }),
+        Animated.timing(glowPulse, {
+          toValue: 0,
+          duration: 1200,
+          easing: Easing.inOut(Easing.quad),
+          useNativeDriver: true,
+        }),
+      ]),
+    );
+
+    Animated.parallel([introAnimation, glowAnimation]).start();
+
+    return () => {
+      introProgress.stopAnimation();
+      glowPulse.stopAnimation();
+    };
+  }, [glowPulse, introProgress]);
+
+  const iconScale = introProgress.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0.6, 1],
+  });
+  const iconOpacity = introProgress.interpolate({
+    inputRange: [0, 0.4, 1],
+    outputRange: [0, 1, 1],
+  });
+  const titleTranslate = introProgress.interpolate({
+    inputRange: [0, 1],
+    outputRange: [18, 0],
+  });
+  const cardTranslate = introProgress.interpolate({
+    inputRange: [0, 1],
+    outputRange: [24, 0],
+  });
+  const glowScale = glowPulse.interpolate({
+    inputRange: [0, 1],
+    outputRange: [1, 1.3],
+  });
+  const glowOpacity = glowPulse.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0.35, 0.6],
+  });
+
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <StatusBar barStyle="light-content" />
@@ -71,17 +132,17 @@ const BookingSuccessScreen: React.FC = () => {
           { paddingBottom: 160 + insets.bottom, paddingTop: 24 },
         ]}
         showsVerticalScrollIndicator={false}>
-        <View style={styles.iconWrapper}>
-          <View style={styles.iconGlow} />
+        <Animated.View style={[styles.iconWrapper, { opacity: iconOpacity, transform: [{ scale: iconScale }] }]}>
+          <Animated.View style={[styles.iconGlow, { opacity: glowOpacity, transform: [{ scale: glowScale }] }]} />
           <MaterialIcons name="check-circle" size={120} color={AccentColors.base} style={styles.icon} />
-        </View>
+        </Animated.View>
 
-        <View style={styles.titleWrapper}>
+        <Animated.View style={[styles.titleWrapper, { opacity: iconOpacity, transform: [{ translateY: titleTranslate }] }]}>
           <Text style={styles.title}>Buchung</Text>
           <Text style={styles.titleAccent}>Erfolgreich!</Text>
-        </View>
+        </Animated.View>
 
-        <View style={styles.card}>
+        <Animated.View style={[styles.card, { opacity: iconOpacity, transform: [{ translateY: cardTranslate }] }]}>
           <View style={styles.cardGlow} />
           <View style={styles.cardSection}>
             <Text style={styles.cardLabelPrimary}>Kurs</Text>
@@ -118,14 +179,14 @@ const BookingSuccessScreen: React.FC = () => {
               <Text style={styles.trainerName}>{bookingSummary.trainerName}</Text>
             </View>
           </View>
-        </View>
+        </Animated.View>
 
-        <View style={styles.reservedBadge}>
+        <Animated.View style={[styles.reservedBadge, { opacity: iconOpacity, transform: [{ translateY: cardTranslate }] }]}>
           <MaterialIcons name="confirmation-number" size={16} color={AccentColors.base} />
           <Text style={styles.reservedText}>
             Dein Platz ist reserviert <Text style={styles.reservedCount}>({bookingSummary.reservedCount})</Text>
           </Text>
-        </View>
+        </Animated.View>
       </ScrollView>
 
       <View style={[styles.bottomBar, { paddingBottom: 24 + insets.bottom }]}>

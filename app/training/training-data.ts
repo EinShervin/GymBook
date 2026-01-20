@@ -46,7 +46,7 @@ export const trainingData: TrainingItem[] = [
     coach: 'Kru Anan',
     booked: 38,
     capacity: 40,
-    accent: AccentColors.base,
+    accent: '#e35b5b',
     category: 'Muay Thai',
     level: 'Fortgeschritten',
     title: 'Muay Thai',

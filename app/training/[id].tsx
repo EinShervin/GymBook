@@ -70,6 +70,10 @@ const TrainingDetailScreen: React.FC = () => {
           </Text>
           <View style={styles.metaRow}>
             <View style={styles.metaItem}>
+              <Feather name="calendar" size={16} color="#8a8a8f" />
+              <Text style={styles.metaText}>{training.time}</Text>
+            </View>
+            <View style={styles.metaItem}>
               <Feather name="clock" size={16} color="#8a8a8f" />
               <Text style={styles.metaText}>{training.duration}</Text>
             </View>

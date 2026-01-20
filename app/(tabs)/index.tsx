@@ -19,6 +19,7 @@ interface DayItem {
   id: string;
   label: string;
   date: string;
+  value: Date;
 }
 
 interface CalendarDay {
@@ -36,13 +37,13 @@ interface CalendarDayCellProps {
 interface DayChipProps {
   day: DayItem;
   isSelected: boolean;
-  onSelect: (dayId: string) => void;
+  onSelect: (date: Date) => void;
 }
 
 const DayChip: React.FC<DayChipProps> = React.memo(({ day, isSelected, onSelect }) => {
   const handlePress = useCallback(() => {
-    onSelect(day.id);
-  }, [day.id, onSelect]);
+    onSelect(day.value);
+  }, [day.value, onSelect]);
 
   return (
     <TouchableOpacity
@@ -118,20 +119,16 @@ const CalendarDayCell: React.FC<CalendarDayCellProps> = React.memo(({ item, onSe
 CalendarDayCell.displayName = 'CalendarDayCell';
 
 const calendarWeekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+const weekDayLabels = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
-const dayData: DayItem[] = [
-  { id: 'mon', label: 'MON', date: '12' },
-  { id: 'tue', label: 'TUE', date: '13' },
-  { id: 'wed', label: 'WED', date: '14' },
-  { id: 'thu', label: 'THU', date: '15' },
-  { id: 'fri', label: 'FRI', date: '16' },
-  { id: 'sat', label: 'SAT', date: '17' },
-  { id: 'sun', label: 'SUN', date: '18' },
-];
+const getDateId = (date: Date) => {
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  return `${date.getFullYear()}-${month}-${day}`;
+};
 
 const HomeScreen: React.FC = () => {
   const router = useRouter();
-  const [selectedDayId, setSelectedDayId] = useState<string>('mon');
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
@@ -159,8 +156,29 @@ const HomeScreen: React.FC = () => {
     return days;
   }, [selectedDate]);
 
-  const handleDaySelect = useCallback((dayId: string) => {
-    setSelectedDayId(dayId);
+  const dayData = useMemo<DayItem[]>(() => {
+    const dayIndex = (selectedDate.getDay() + 6) % 7;
+    const startDate = new Date(selectedDate);
+    startDate.setDate(selectedDate.getDate() - dayIndex);
+
+    return Array.from({ length: 7 }, (_, offset) => {
+      const value = new Date(startDate);
+      value.setDate(startDate.getDate() + offset);
+      const id = getDateId(value);
+
+      return {
+        id,
+        label: weekDayLabels[value.getDay()],
+        date: value.getDate().toString().padStart(2, '0'),
+        value,
+      };
+    });
+  }, [selectedDate]);
+
+  const selectedDayId = useMemo(() => getDateId(selectedDate), [selectedDate]);
+
+  const handleDaySelect = useCallback((date: Date) => {
+    setSelectedDate(date);
   }, []);
 
   const handleClassPress = useCallback(

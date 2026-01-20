@@ -380,7 +380,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     letterSpacing: 1.6,
     marginBottom: 4,
-    color: '#4ce0de',
+    color: AccentColors.base,
     fontWeight: '700',
   },
   dayDot: {
@@ -390,7 +390,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   dayDotSelected: {
-    backgroundColor: '#4ce0de',
+    backgroundColor: AccentColors.base,
   },
   dayDotHidden: {
     backgroundColor: 'transparent',

@@ -4,12 +4,13 @@ import { StyleSheet } from 'react-native';
 
 import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { AccentColors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
-  const activeTint = isDarkMode ? '#f7f7f7' : '#0b0b0d';
+  const activeTint = AccentColors.base;
   const inactiveTint = isDarkMode ? '#6f6f78' : '#7c7c86';
   const tabBarBackground = isDarkMode ? '#111114' : '#f5f5f7';
 

@@ -46,15 +46,14 @@ const DayChip: React.FC<DayChipProps> = React.memo(({ day, isSelected, onSelect 
 
   return (
     <TouchableOpacity
-      style={[styles.dayChip, isSelected ? styles.dayChipSelected : styles.dayChipDefault]}
+      style={styles.dayChip}
       onPress={handlePress}
       activeOpacity={0.8}>
-      <Text style={[styles.dayLabel, isSelected ? styles.dayLabelSelected : styles.dayLabelDefault]}>
-        {day.label}
-      </Text>
+      {isSelected ? <Text style={styles.dayLabel}>{day.label}</Text> : null}
       <Text style={[styles.dayDate, isSelected ? styles.dayDateSelected : styles.dayDateDefault]}>
         {day.date}
       </Text>
+      <View style={[styles.dayDot, isSelected ? styles.dayDotSelected : styles.dayDotHidden]} />
     </TouchableOpacity>
   );
 });
@@ -245,7 +244,7 @@ const HomeScreen: React.FC = () => {
           removeClippedSubviews
           maxToRenderPerBatch={6}
           windowSize={5}
-          getItemLayout={(_, index) => ({ length: 84, offset: 84 * index, index })}
+          getItemLayout={(_, index) => ({ length: 74, offset: 74 * index, index })}
         />
 
         <FlatList
@@ -337,47 +336,46 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   dayListContent: {
-    paddingRight: 12,
-    gap: 12,
+    paddingRight: 16,
+    gap: 18,
   },
   dayChip: {
-    width: 72,
-    height: 92,
-    borderRadius: 24,
-    justifyContent: 'center',
+    width: 56,
+    height: 64,
+    justifyContent: 'flex-start',
     alignItems: 'center',
-  },
-  dayChipSelected: {
-    backgroundColor: '#f7f7f7',
-  },
-  dayChipDefault: {
-    backgroundColor: '#121215',
-    borderWidth: 1,
-    borderColor: '#2b2b31',
-  },
-  dayLabel: {
-    fontSize: 12,
-    letterSpacing: 1.2,
-    marginBottom: 6,
-  },
-  dayLabelSelected: {
-    color: '#0b0b0d',
-    fontWeight: '700',
-  },
-  dayLabelDefault: {
-    color: '#6b6b72',
-    fontWeight: '600',
+    paddingTop: 6,
   },
   dayDate: {
-    fontSize: 22,
+    fontSize: 26,
+    fontWeight: '600',
+    letterSpacing: 0.2,
   },
   dayDateSelected: {
-    color: '#0b0b0d',
+    color: '#f7f7f7',
     fontWeight: '700',
   },
   dayDateDefault: {
-    color: '#f7f7f7',
-    fontWeight: '600',
+    color: '#5b5b63',
+  },
+  dayLabel: {
+    fontSize: 12,
+    letterSpacing: 1.6,
+    marginBottom: 4,
+    color: '#4ce0de',
+    fontWeight: '700',
+  },
+  dayDot: {
+    marginTop: 6,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+  },
+  dayDotSelected: {
+    backgroundColor: '#4ce0de',
+  },
+  dayDotHidden: {
+    backgroundColor: 'transparent',
   },
   classListContent: {
     paddingTop: 8,

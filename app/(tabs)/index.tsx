@@ -12,6 +12,7 @@ import {
 import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { AccentColors } from '@/constants/theme';
 import { trainingData, type TrainingItem } from '../training/training-data';
 
 interface DayItem {
@@ -78,7 +79,7 @@ const ClassCard: React.FC<ClassCardProps> = React.memo(({ item, onPress, onBookP
 
   return (
     <TouchableOpacity style={styles.classCard} onPress={handlePress} activeOpacity={0.9}>
-      <Text style={[styles.classTime, { color: item.accent }]}>{item.time}</Text>
+      <Text style={[styles.classTime, { color: AccentColors.base }]}>{item.time}</Text>
       <Text style={styles.classTitle}>{item.listTitle}</Text>
       <Text style={styles.classCoach}>with {item.coach}</Text>
       <View style={styles.capacityRow}>
@@ -320,7 +321,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
     fontSize: 12,
     letterSpacing: 3,
-    color: '#16c5d1',
+    color: AccentColors.base,
   },
   calendarButton: {
     width: 42,

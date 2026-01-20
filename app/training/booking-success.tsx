@@ -11,6 +11,7 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { AccentColors } from '@/constants/theme';
 import { trainingById, type TrainingItem } from './training-data';
 
 interface BookingSummary {
@@ -72,7 +73,7 @@ const BookingSuccessScreen: React.FC = () => {
         showsVerticalScrollIndicator={false}>
         <View style={styles.iconWrapper}>
           <View style={styles.iconGlow} />
-          <MaterialIcons name="check-circle" size={120} color="#16c6d4" style={styles.icon} />
+          <MaterialIcons name="check-circle" size={120} color={AccentColors.base} style={styles.icon} />
         </View>
 
         <View style={styles.titleWrapper}>
@@ -120,7 +121,7 @@ const BookingSuccessScreen: React.FC = () => {
         </View>
 
         <View style={styles.reservedBadge}>
-          <MaterialIcons name="confirmation-number" size={16} color="#16c6d4" />
+          <MaterialIcons name="confirmation-number" size={16} color={AccentColors.base} />
           <Text style={styles.reservedText}>
             Dein Platz ist reserviert <Text style={styles.reservedCount}>({bookingSummary.reservedCount})</Text>
           </Text>
@@ -161,13 +162,13 @@ const styles = StyleSheet.create({
     width: 140,
     height: 140,
     borderRadius: 70,
-    backgroundColor: 'rgba(0,192,209,0.18)',
-    shadowColor: '#16c6d4',
+    backgroundColor: AccentColors.tint18,
+    shadowColor: AccentColors.base,
     shadowOpacity: 0.3,
     shadowRadius: 24,
   },
   icon: {
-    textShadowColor: 'rgba(22,198,212,0.6)',
+    textShadowColor: AccentColors.tint60,
     textShadowRadius: 12,
   },
   titleWrapper: {
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: -1.4,
     fontStyle: 'italic',
-    color: '#16c6d4',
+    color: AccentColors.base,
     marginTop: 4,
   },
   card: {
@@ -212,7 +213,7 @@ const styles = StyleSheet.create({
     width: 160,
     height: 160,
     borderRadius: 80,
-    backgroundColor: 'rgba(22,198,212,0.08)',
+    backgroundColor: AccentColors.tint08,
   },
   cardSection: {
     paddingBottom: 16,
@@ -222,7 +223,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 3,
     textTransform: 'uppercase',
-    color: '#16c6d4',
+    color: AccentColors.base,
     marginBottom: 6,
   },
   cardTitle: {
@@ -337,11 +338,11 @@ const styles = StyleSheet.create({
   },
   primaryButton: {
     borderRadius: 16,
-    backgroundColor: '#16c6d4',
+    backgroundColor: AccentColors.base,
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 16,
-    shadowColor: '#16c6d4',
+    shadowColor: AccentColors.base,
     shadowOpacity: 0.35,
     shadowRadius: 18,
     elevation: 4,

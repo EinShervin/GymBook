@@ -1,3 +1,5 @@
+import { AccentColors } from '@/constants/theme';
+
 export interface TrainingItem {
   id: string;
   time: string;
@@ -27,7 +29,7 @@ export const trainingData: TrainingItem[] = [
     coach: 'Kru Somchai',
     booked: 24,
     capacity: 40,
-    accent: '#1ad1d1',
+    accent: AccentColors.base,
     category: 'Muay Thai',
     level: 'Fortgeschritten',
     title: 'Muay Thai',
@@ -61,7 +63,7 @@ export const trainingData: TrainingItem[] = [
     coach: 'Kru Malee',
     booked: 12,
     capacity: 40,
-    accent: '#1ad1d1',
+    accent: AccentColors.base,
     category: 'Muay Thai',
     level: 'Fortgeschritten',
     title: 'Muay Thai',

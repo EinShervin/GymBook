@@ -1,5 +1,7 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import {
+  Animated,
+  Easing,
   ImageBackground,
   ScrollView,
   StatusBar,
@@ -34,6 +36,14 @@ const BookingSuccessScreen: React.FC = () => {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id?: string }>();
+  const iconScale = useRef(new Animated.Value(0.6)).current;
+  const iconOpacity = useRef(new Animated.Value(0)).current;
+  const glowScale = useRef(new Animated.Value(0.9)).current;
+  const glowOpacity = useRef(new Animated.Value(0.4)).current;
+  const cardTranslateY = useRef(new Animated.Value(32)).current;
+  const cardOpacity = useRef(new Animated.Value(0)).current;
+  const badgeTranslateY = useRef(new Animated.Value(16)).current;
+  const badgeOpacity = useRef(new Animated.Value(0)).current;
 
   const training = React.useMemo<TrainingItem>(() => {
     if (id && trainingById[id]) {
@@ -62,6 +72,103 @@ const BookingSuccessScreen: React.FC = () => {
     router.replace('/(tabs)');
   }, [router]);
 
+  useEffect(() => {
+    const glowAnimation = Animated.loop(
+      Animated.sequence([
+        Animated.parallel([
+          Animated.timing(glowScale, {
+            toValue: 1.15,
+            duration: 1400,
+            easing: Easing.out(Easing.ease),
+            useNativeDriver: true,
+          }),
+          Animated.timing(glowOpacity, {
+            toValue: 0.15,
+            duration: 1400,
+            easing: Easing.out(Easing.ease),
+            useNativeDriver: true,
+          }),
+        ]),
+        Animated.parallel([
+          Animated.timing(glowScale, {
+            toValue: 0.95,
+            duration: 1400,
+            easing: Easing.in(Easing.ease),
+            useNativeDriver: true,
+          }),
+          Animated.timing(glowOpacity, {
+            toValue: 0.35,
+            duration: 1400,
+            easing: Easing.in(Easing.ease),
+            useNativeDriver: true,
+          }),
+        ]),
+      ])
+    );
+
+    const entryAnimation = Animated.sequence([
+      Animated.parallel([
+        Animated.timing(iconScale, {
+          toValue: 1.08,
+          duration: 360,
+          easing: Easing.out(Easing.back(1.4)),
+          useNativeDriver: true,
+        }),
+        Animated.timing(iconOpacity, {
+          toValue: 1,
+          duration: 260,
+          easing: Easing.out(Easing.ease),
+          useNativeDriver: true,
+        }),
+      ]),
+      Animated.spring(iconScale, {
+        toValue: 1,
+        useNativeDriver: true,
+        friction: 5,
+      }),
+      Animated.parallel([
+        Animated.timing(cardTranslateY, {
+          toValue: 0,
+          duration: 420,
+          delay: 80,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+        Animated.timing(cardOpacity, {
+          toValue: 1,
+          duration: 300,
+          delay: 80,
+          easing: Easing.out(Easing.ease),
+          useNativeDriver: true,
+        }),
+      ]),
+      Animated.parallel([
+        Animated.timing(badgeTranslateY, {
+          toValue: 0,
+          duration: 320,
+          delay: 60,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+        Animated.timing(badgeOpacity, {
+          toValue: 1,
+          duration: 220,
+          delay: 60,
+          easing: Easing.out(Easing.ease),
+          useNativeDriver: true,
+        }),
+      ]),
+    ]);
+
+    glowAnimation.start();
+    entryAnimation.start();
+
+    return () => {
+      glowAnimation.stop();
+      entryAnimation.stop();
+    };
+  }, [badgeOpacity, badgeTranslateY, cardOpacity, cardTranslateY, glowOpacity, glowScale, iconOpacity, iconScale]);
+
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <StatusBar barStyle="light-content" />
@@ -71,17 +178,25 @@ const BookingSuccessScreen: React.FC = () => {
           { paddingBottom: 160 + insets.bottom, paddingTop: 24 },
         ]}
         showsVerticalScrollIndicator={false}>
-        <View style={styles.iconWrapper}>
-          <View style={styles.iconGlow} />
+        <Animated.View style={[styles.iconWrapper, { opacity: iconOpacity, transform: [{ scale: iconScale }] }]}>
+          <Animated.View
+            style={[
+              styles.iconGlow,
+              {
+                opacity: glowOpacity,
+                transform: [{ scale: glowScale }],
+              },
+            ]}
+          />
           <MaterialIcons name="check-circle" size={120} color={AccentColors.base} style={styles.icon} />
-        </View>
+        </Animated.View>
 
         <View style={styles.titleWrapper}>
           <Text style={styles.title}>Buchung</Text>
           <Text style={styles.titleAccent}>Erfolgreich!</Text>
         </View>
 
-        <View style={styles.card}>
+        <Animated.View style={[styles.card, { opacity: cardOpacity, transform: [{ translateY: cardTranslateY }] }]}>
           <View style={styles.cardGlow} />
           <View style={styles.cardSection}>
             <Text style={styles.cardLabelPrimary}>Kurs</Text>
@@ -118,14 +233,18 @@ const BookingSuccessScreen: React.FC = () => {
               <Text style={styles.trainerName}>{bookingSummary.trainerName}</Text>
             </View>
           </View>
-        </View>
+        </Animated.View>
 
-        <View style={styles.reservedBadge}>
+        <Animated.View
+          style={[
+            styles.reservedBadge,
+            { opacity: badgeOpacity, transform: [{ translateY: badgeTranslateY }] },
+          ]}>
           <MaterialIcons name="confirmation-number" size={16} color={AccentColors.base} />
           <Text style={styles.reservedText}>
             Dein Platz ist reserviert <Text style={styles.reservedCount}>({bookingSummary.reservedCount})</Text>
           </Text>
-        </View>
+        </Animated.View>
       </ScrollView>
 
       <View style={[styles.bottomBar, { paddingBottom: 24 + insets.bottom }]}>

@@ -105,7 +105,7 @@ const TrainingDetailScreen: React.FC = () => {
 
       <View style={[styles.bottomBar, { paddingBottom: 24 + insets.bottom }]}>
         <View style={styles.bottomStatus}>
-          <Feather name="shield" size={12} color="#8b5cf6" />
+          <Feather name="shield" size={12} color="#1e3a8a" />
           <Text style={styles.bottomStatusText}>Abo-Zugang aktiv</Text>
         </View>
         <TouchableOpacity style={styles.confirmButton} activeOpacity={0.9} onPress={handleConfirmPress}>
@@ -165,14 +165,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 6,
-    backgroundColor: 'rgba(139,92,246,0.1)',
+    backgroundColor: 'rgba(30,58,138,0.1)',
     borderWidth: 1,
-    borderColor: 'rgba(139,92,246,0.2)',
+    borderColor: 'rgba(30,58,138,0.2)',
     fontSize: 10,
     fontWeight: '700',
     letterSpacing: 1.4,
     textTransform: 'uppercase',
-    color: '#8b5cf6',
+    color: '#1e3a8a',
   },
   badgeSecondary: {
     paddingHorizontal: 10,
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     lineHeight: 40,
   },
   titleHighlight: {
-    color: '#8b5cf6',
+    color: '#1e3a8a',
   },
   metaRow: {
     flexDirection: 'row',
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     width: 180,
     height: 180,
     borderRadius: 90,
-    backgroundColor: 'rgba(139,92,246,0.08)',
+    backgroundColor: 'rgba(30,58,138,0.08)',
   },
   availabilityLabel: {
     fontSize: 11,
@@ -266,10 +266,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 6,
     borderRadius: 999,
-    backgroundColor: 'rgba(139,92,246,0.12)',
+    backgroundColor: 'rgba(30,58,138,0.12)',
     borderWidth: 1,
-    borderColor: 'rgba(139,92,246,0.2)',
-    color: '#8b5cf6',
+    borderColor: 'rgba(30,58,138,0.2)',
+    color: '#1e3a8a',
     fontSize: 12,
     fontWeight: '700',
     textTransform: 'uppercase',
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
   progressFill: {
     height: '100%',
     borderRadius: 999,
-    backgroundColor: '#8b5cf6',
+    backgroundColor: '#1e3a8a',
   },
   trainerRow: {
     marginTop: 26,
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
     borderRadius: 32,
   },
   trainerBadge: {
-    backgroundColor: '#8b5cf6',
+    backgroundColor: '#1e3a8a',
     borderRadius: 10,
     paddingHorizontal: 6,
     paddingVertical: 2,
@@ -361,14 +361,14 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textTransform: 'uppercase',
     letterSpacing: 1.8,
-    color: 'rgba(139,92,246,0.9)',
+    color: 'rgba(30,58,138,0.9)',
   },
   confirmButton: {
-    backgroundColor: '#8b5cf6',
+    backgroundColor: '#1e3a8a',
     borderRadius: 16,
     paddingVertical: 16,
     alignItems: 'center',
-    shadowColor: '#8b5cf6',
+    shadowColor: '#1e3a8a',
     shadowOpacity: 0.4,
     shadowRadius: 12,
     elevation: 4,

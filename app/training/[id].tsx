@@ -205,9 +205,9 @@ const styles = StyleSheet.create({
     color: '#18c6d3',
   },
   metaRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 20,
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    gap: 12,
     paddingTop: 6,
   },
   metaItem: {

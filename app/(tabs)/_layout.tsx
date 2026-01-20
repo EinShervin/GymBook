@@ -12,22 +12,54 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: '#f7f7f7',
+        tabBarInactiveTintColor: '#6b6b72',
         headerShown: false,
         tabBarButton: HapticTab,
+        tabBarStyle: {
+          backgroundColor: '#111114',
+          borderTopColor: '#1f1f25',
+          borderTopWidth: 1,
+          height: 76,
+          paddingTop: 8,
+          paddingBottom: 14,
+          marginHorizontal: 16,
+          marginBottom: 12,
+          borderTopLeftRadius: 24,
+          borderTopRightRadius: 24,
+        },
+        tabBarLabelStyle: {
+          fontSize: 11,
+          letterSpacing: 0.8,
+          fontWeight: '600',
+        },
+        tabBarItemStyle: {
+          paddingTop: 4,
+        },
+        tabBarHideOnKeyboard: true,
+        tabBarBadgeStyle: {
+          backgroundColor: Colors[colorScheme ?? 'light'].tint,
+        },
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: 'Trainings',
+          tabBarIcon: ({ color }) => <IconSymbol size={26} name="dumbbell.fill" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="chat"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Chat',
+          tabBarIcon: ({ color }) => <IconSymbol size={26} name="message.fill" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="account"
+        options={{
+          title: 'Account',
+          tabBarIcon: ({ color }) => <IconSymbol size={26} name="person.fill" color={color} />,
         }}
       />
     </Tabs>

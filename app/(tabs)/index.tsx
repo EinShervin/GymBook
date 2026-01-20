@@ -229,7 +229,7 @@ const HomeScreen: React.FC = () => {
             style={styles.calendarButton}
             activeOpacity={0.8}
             onPress={handleCalendarOpen}>
-            <Feather name="calendar" size={18} color="#f1f1f1" />
+            <Feather name="calendar" size={18} color="#f4f7ff" />
           </TouchableOpacity>
         </View>
 
@@ -268,7 +268,7 @@ const HomeScreen: React.FC = () => {
                 {calendarMonth} {calendarYear}
               </Text>
               <TouchableOpacity onPress={handleCalendarClose} style={styles.calendarClose}>
-                <Feather name="x" size={18} color="#f7f7f7" />
+                <Feather name="x" size={18} color="#f4f7ff" />
               </TouchableOpacity>
             </View>
             <View style={styles.calendarWeekRow}>
@@ -297,7 +297,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#0c0c0e',
+    backgroundColor: '#0b1220',
   },
   container: {
     flex: 1,
@@ -313,24 +313,24 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: '700',
-    color: '#f7f7f7',
+    color: '#f4f7ff',
     letterSpacing: 1,
   },
   subtitle: {
     marginTop: 4,
     fontSize: 12,
     letterSpacing: 3,
-    color: '#16c5d1',
+    color: '#60a5fa',
   },
   calendarButton: {
     width: 42,
     height: 42,
     borderRadius: 21,
-    backgroundColor: '#1a1a1d',
+    backgroundColor: '#141d33',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#2a2a2f',
+    borderColor: '#22304f',
   },
   dayList: {
     marginBottom: 8,
@@ -347,12 +347,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   dayChipSelected: {
-    backgroundColor: '#f7f7f7',
+    backgroundColor: '#3b82f6',
   },
   dayChipDefault: {
-    backgroundColor: '#121215',
+    backgroundColor: '#141d33',
     borderWidth: 1,
-    borderColor: '#2b2b31',
+    borderColor: '#22304f',
   },
   dayLabel: {
     fontSize: 12,
@@ -360,22 +360,22 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   dayLabelSelected: {
-    color: '#0b0b0d',
+    color: '#0b1220',
     fontWeight: '700',
   },
   dayLabelDefault: {
-    color: '#6b6b72',
+    color: '#8fa1c8',
     fontWeight: '600',
   },
   dayDate: {
     fontSize: 22,
   },
   dayDateSelected: {
-    color: '#0b0b0d',
+    color: '#0b1220',
     fontWeight: '700',
   },
   dayDateDefault: {
-    color: '#f7f7f7',
+    color: '#f4f7ff',
     fontWeight: '600',
   },
   classListContent: {
@@ -384,11 +384,11 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   classCard: {
-    backgroundColor: '#141417',
+    backgroundColor: '#141d33',
     borderRadius: 28,
     padding: 20,
     borderWidth: 1,
-    borderColor: '#222229',
+    borderColor: '#22304f',
     shadowColor: '#000',
     shadowOpacity: 0.4,
     shadowRadius: 24,
@@ -402,13 +402,13 @@ const styles = StyleSheet.create({
   classTitle: {
     marginTop: 8,
     fontSize: 20,
-    color: '#f7f7f7',
+    color: '#f4f7ff',
     fontWeight: '700',
   },
   classCoach: {
     marginTop: 4,
     fontSize: 14,
-    color: '#8b8b94',
+    color: '#9fb0d8',
   },
   capacityRow: {
     marginTop: 16,
@@ -417,7 +417,7 @@ const styles = StyleSheet.create({
   },
   capacityLabel: {
     fontSize: 12,
-    color: '#6d6d75',
+    color: '#8fa1c8',
   },
   capacityValue: {
     fontSize: 12,
@@ -427,7 +427,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     height: 6,
     borderRadius: 999,
-    backgroundColor: '#24242a',
+    backgroundColor: '#1b2640',
     overflow: 'hidden',
   },
   progressFill: {
@@ -436,7 +436,7 @@ const styles = StyleSheet.create({
   },
   bookButton: {
     marginTop: 18,
-    backgroundColor: '#f7f7f7',
+    backgroundColor: '#3b82f6',
     paddingVertical: 14,
     borderRadius: 999,
     alignItems: 'center',
@@ -445,11 +445,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     letterSpacing: 2,
     fontWeight: '700',
-    color: '#0b0b0d',
+    color: '#0b1220',
   },
   calendarOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(8, 8, 10, 0.7)',
+    backgroundColor: 'rgba(11,18,32,0.8)',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 24,
@@ -457,10 +457,10 @@ const styles = StyleSheet.create({
   calendarSheet: {
     width: '100%',
     borderRadius: 24,
-    backgroundColor: '#141417',
+    backgroundColor: '#141d33',
     padding: 20,
     borderWidth: 1,
-    borderColor: '#2a2a2f',
+    borderColor: '#22304f',
   },
   calendarHeader: {
     flexDirection: 'row',
@@ -471,14 +471,14 @@ const styles = StyleSheet.create({
   calendarTitle: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#f7f7f7',
+    color: '#f4f7ff',
   },
   calendarClose: {
     width: 32,
     height: 32,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#2a2a2f',
+    borderColor: '#22304f',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -491,7 +491,7 @@ const styles = StyleSheet.create({
     width: 32,
     textAlign: 'center',
     fontSize: 12,
-    color: '#6b6b72',
+    color: '#8fa1c8',
   },
   calendarDay: {
     width: 32,
@@ -505,7 +505,7 @@ const styles = StyleSheet.create({
     opacity: 0,
   },
   calendarDayText: {
-    color: '#f7f7f7',
+    color: '#f4f7ff',
     fontSize: 12,
     fontWeight: '600',
   },

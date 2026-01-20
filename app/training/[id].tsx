@@ -39,10 +39,10 @@ const TrainingDetailScreen: React.FC = () => {
       <StatusBar barStyle="light-content" />
       <View style={[styles.headerOverlay, { paddingTop: insets.top + 10 }]}>
         <TouchableOpacity style={styles.headerButton} onPress={handleBackPress} activeOpacity={0.8}>
-          <Feather name="chevron-left" size={20} color="#ffffff" />
+          <Feather name="chevron-left" size={20} color="#f4f7ff" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.headerButton} onPress={handleSharePress} activeOpacity={0.8}>
-          <Feather name="share-2" size={20} color="#ffffff" />
+          <Feather name="share-2" size={20} color="#f4f7ff" />
         </TouchableOpacity>
       </View>
 
@@ -53,7 +53,7 @@ const TrainingDetailScreen: React.FC = () => {
         ]}
         showsVerticalScrollIndicator={false}>
         <View style={styles.hero}>
-          <MaterialIcons name="sports-mma" size={320} color="rgba(255,255,255,0.03)" style={styles.heroIcon} />
+          <MaterialIcons name="sports-mma" size={320} color="rgba(59,130,246,0.08)" style={styles.heroIcon} />
           <View style={styles.badgeRow}>
             <Text style={styles.badgePrimary}>{training.category}</Text>
             <Text style={styles.badgeSecondary}>{training.level}</Text>
@@ -65,11 +65,11 @@ const TrainingDetailScreen: React.FC = () => {
           </Text>
           <View style={styles.metaRow}>
             <View style={styles.metaItem}>
-              <Feather name="clock" size={16} color="#8a8a8f" />
+              <Feather name="clock" size={16} color="#8fa1c8" />
               <Text style={styles.metaText}>{training.duration}</Text>
             </View>
             <View style={styles.metaItem}>
-              <Feather name="users" size={16} color="#8a8a8f" />
+              <Feather name="users" size={16} color="#8fa1c8" />
               <Text style={styles.metaText}>{`${training.capacity} Plätze gesamt`}</Text>
             </View>
           </View>
@@ -105,7 +105,7 @@ const TrainingDetailScreen: React.FC = () => {
 
       <View style={[styles.bottomBar, { paddingBottom: 24 + insets.bottom }]}>
         <View style={styles.bottomStatus}>
-          <Feather name="shield" size={12} color="#1fc3d1" />
+          <Feather name="shield" size={12} color="#60a5fa" />
           <Text style={styles.bottomStatusText}>Abo-Zugang aktiv</Text>
         </View>
         <TouchableOpacity style={styles.confirmButton} activeOpacity={0.9} onPress={handleConfirmPress}>
@@ -121,7 +121,7 @@ export default TrainingDetailScreen;
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#111114',
+    backgroundColor: '#0b1220',
   },
   headerOverlay: {
     position: 'absolute',
@@ -138,9 +138,9 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: 'rgba(39,39,42,0.6)',
+    backgroundColor: 'rgba(20,29,51,0.8)',
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
+    borderColor: 'rgba(59,130,246,0.2)',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -165,27 +165,27 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 6,
-    backgroundColor: 'rgba(0,192,209,0.1)',
+    backgroundColor: 'rgba(59,130,246,0.18)',
     borderWidth: 1,
-    borderColor: 'rgba(0,192,209,0.2)',
+    borderColor: 'rgba(59,130,246,0.35)',
     fontSize: 10,
     fontWeight: '700',
     letterSpacing: 1.4,
     textTransform: 'uppercase',
-    color: '#1fc3d1',
+    color: '#3b82f6',
   },
   badgeSecondary: {
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 6,
-    backgroundColor: '#1f1f23',
+    backgroundColor: '#141d33',
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
+    borderColor: '#22304f',
     fontSize: 10,
     fontWeight: '700',
     letterSpacing: 1.4,
     textTransform: 'uppercase',
-    color: 'rgba(255,255,255,0.7)',
+    color: 'rgba(159,176,216,0.85)',
   },
   title: {
     fontSize: 40,
@@ -193,11 +193,11 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     textTransform: 'uppercase',
     letterSpacing: -1,
-    color: '#ffffff',
+    color: '#f4f7ff',
     lineHeight: 40,
   },
   titleHighlight: {
-    color: '#18c6d3',
+    color: '#60a5fa',
   },
   metaRow: {
     flexDirection: 'row',
@@ -212,16 +212,16 @@ const styles = StyleSheet.create({
   },
   metaText: {
     fontSize: 14,
-    color: 'rgba(255,255,255,0.6)',
+    color: 'rgba(159,176,216,0.75)',
     fontWeight: '500',
   },
   availabilityCard: {
     marginTop: 24,
     borderRadius: 28,
     padding: 24,
-    backgroundColor: '#202125',
+    backgroundColor: '#141d33',
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.05)',
+    borderColor: '#22304f',
     shadowColor: '#000',
     shadowOpacity: 0.35,
     shadowRadius: 24,
@@ -235,13 +235,13 @@ const styles = StyleSheet.create({
     width: 180,
     height: 180,
     borderRadius: 90,
-    backgroundColor: 'rgba(0,192,209,0.08)',
+    backgroundColor: 'rgba(59,130,246,0.18)',
   },
   availabilityLabel: {
     fontSize: 11,
     letterSpacing: 3,
     fontWeight: '700',
-    color: 'rgba(255,255,255,0.4)',
+    color: 'rgba(159,176,216,0.65)',
     marginBottom: 18,
   },
   availabilityRow: {
@@ -252,12 +252,12 @@ const styles = StyleSheet.create({
   availabilityValue: {
     fontSize: 56,
     fontWeight: '700',
-    color: '#ffffff',
+    color: '#f4f7ff',
     lineHeight: 58,
   },
   availabilityTotal: {
     fontSize: 28,
-    color: 'rgba(255,255,255,0.4)',
+    color: 'rgba(159,176,216,0.65)',
     paddingBottom: 6,
   },
   availabilityBadge: {
@@ -266,10 +266,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 6,
     borderRadius: 999,
-    backgroundColor: 'rgba(0,192,209,0.12)',
+    backgroundColor: 'rgba(59,130,246,0.2)',
     borderWidth: 1,
-    borderColor: 'rgba(0,192,209,0.2)',
-    color: '#20c7d4',
+    borderColor: 'rgba(59,130,246,0.4)',
+    color: '#60a5fa',
     fontSize: 12,
     fontWeight: '700',
     textTransform: 'uppercase',
@@ -279,13 +279,13 @@ const styles = StyleSheet.create({
     marginTop: 18,
     height: 10,
     borderRadius: 999,
-    backgroundColor: '#17171b',
+    backgroundColor: '#101a2e',
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
     borderRadius: 999,
-    backgroundColor: '#17c3d1',
+    backgroundColor: '#3b82f6',
   },
   trainerRow: {
     marginTop: 26,
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
     height: 64,
     borderRadius: 32,
     borderWidth: 2,
-    borderColor: '#1f1f23',
+    borderColor: '#22304f',
   },
   trainerAvatar: {
     flex: 1,
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
     borderRadius: 32,
   },
   trainerBadge: {
-    backgroundColor: '#20c7d4',
+    backgroundColor: '#3b82f6',
     borderRadius: 10,
     paddingHorizontal: 6,
     paddingVertical: 2,
@@ -322,21 +322,21 @@ const styles = StyleSheet.create({
     fontSize: 9,
     fontWeight: '700',
     textTransform: 'uppercase',
-    color: '#0b0c0d',
+    color: '#0b1220',
     letterSpacing: 1,
   },
   trainerLabel: {
     fontSize: 11,
     letterSpacing: 2,
     textTransform: 'uppercase',
-    color: 'rgba(255,255,255,0.45)',
+    color: 'rgba(159,176,216,0.7)',
     fontWeight: '700',
     marginBottom: 4,
   },
   trainerName: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#ffffff',
+    color: '#f4f7ff',
   },
   bottomBar: {
     position: 'absolute',
@@ -346,8 +346,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: 16,
     borderTopWidth: 1,
-    borderTopColor: 'rgba(255,255,255,0.08)',
-    backgroundColor: 'rgba(17,17,20,0.96)',
+    borderTopColor: 'rgba(59,130,246,0.25)',
+    backgroundColor: 'rgba(11,18,32,0.96)',
   },
   bottomStatus: {
     flexDirection: 'row',
@@ -361,14 +361,14 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textTransform: 'uppercase',
     letterSpacing: 1.8,
-    color: 'rgba(32,199,212,0.9)',
+    color: 'rgba(96,165,250,0.9)',
   },
   confirmButton: {
-    backgroundColor: '#18c6d3',
+    backgroundColor: '#3b82f6',
     borderRadius: 16,
     paddingVertical: 16,
     alignItems: 'center',
-    shadowColor: '#18c6d3',
+    shadowColor: '#3b82f6',
     shadowOpacity: 0.4,
     shadowRadius: 12,
     elevation: 4,
@@ -378,6 +378,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textTransform: 'uppercase',
     letterSpacing: 1,
-    color: '#0b0c0d',
+    color: '#0b1220',
   },
 });

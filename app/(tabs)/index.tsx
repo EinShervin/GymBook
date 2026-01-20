@@ -12,21 +12,12 @@ import {
 import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { trainingData, type TrainingItem } from '../training/training-data';
 
 interface DayItem {
   id: string;
   label: string;
   date: string;
-}
-
-interface ClassItem {
-  id: string;
-  time: string;
-  title: string;
-  coach: string;
-  booked: number;
-  capacity: number;
-  accent: string;
 }
 
 interface CalendarDay {
@@ -70,9 +61,9 @@ const DayChip: React.FC<DayChipProps> = React.memo(({ day, isSelected, onSelect 
 DayChip.displayName = 'DayChip';
 
 interface ClassCardProps {
-  item: ClassItem;
-  onPress: (classItem: ClassItem) => void;
-  onBookPress: (classItem: ClassItem) => void;
+  item: TrainingItem;
+  onPress: (classItem: TrainingItem) => void;
+  onBookPress: (classItem: TrainingItem) => void;
 }
 
 const ClassCard: React.FC<ClassCardProps> = React.memo(({ item, onPress, onBookPress }) => {
@@ -88,7 +79,7 @@ const ClassCard: React.FC<ClassCardProps> = React.memo(({ item, onPress, onBookP
   return (
     <TouchableOpacity style={styles.classCard} onPress={handlePress} activeOpacity={0.9}>
       <Text style={[styles.classTime, { color: item.accent }]}>{item.time}</Text>
-      <Text style={styles.classTitle}>{item.title}</Text>
+      <Text style={styles.classTitle}>{item.listTitle}</Text>
       <Text style={styles.classCoach}>with {item.coach}</Text>
       <View style={styles.capacityRow}>
         <Text style={styles.capacityLabel}>Capacity</Text>
@@ -138,36 +129,6 @@ const dayData: DayItem[] = [
   { id: 'sun', label: 'SUN', date: '18' },
 ];
 
-const classData: ClassItem[] = [
-  {
-    id: 'technique-morning',
-    time: '07:00 — 08:30',
-    title: 'Muay Thai Technik',
-    coach: 'Kru Somchai',
-    booked: 24,
-    capacity: 40,
-    accent: '#1ad1d1',
-  },
-  {
-    id: 'sparring-midday',
-    time: '12:00 — 13:30',
-    title: 'Muay Thai Sparring',
-    coach: 'Kru Anan',
-    booked: 38,
-    capacity: 40,
-    accent: '#e35b5b',
-  },
-  {
-    id: 'technique-evening',
-    time: '17:30 — 19:00',
-    title: 'Muay Thai Technik',
-    coach: 'Kru Malee',
-    booked: 12,
-    capacity: 40,
-    accent: '#1ad1d1',
-  },
-];
-
 const HomeScreen: React.FC = () => {
   const router = useRouter();
   const [selectedDayId, setSelectedDayId] = useState<string>('mon');
@@ -203,20 +164,18 @@ const HomeScreen: React.FC = () => {
   }, []);
 
   const handleClassPress = useCallback(
-    (classItem: ClassItem) => {
+    (classItem: TrainingItem) => {
       router.push({
         pathname: '/training/[id]',
         params: {
           id: classItem.id,
-          booked: classItem.booked.toString(),
-          capacity: classItem.capacity.toString(),
         },
       });
     },
     [router],
   );
 
-  const handleBookPress = useCallback((classItem: ClassItem) => {
+  const handleBookPress = useCallback((classItem: TrainingItem) => {
     console.log(`Booked class: ${classItem.id}`);
   }, []);
 
@@ -244,7 +203,7 @@ const HomeScreen: React.FC = () => {
   );
 
   const renderClassItem = useCallback(
-    ({ item }: ListRenderItemInfo<ClassItem>) => (
+    ({ item }: ListRenderItemInfo<TrainingItem>) => (
       <ClassCard item={item} onPress={handleClassPress} onBookPress={handleBookPress} />
     ),
     [handleBookPress, handleClassPress],
@@ -289,7 +248,7 @@ const HomeScreen: React.FC = () => {
         />
 
         <FlatList
-          data={classData}
+          data={trainingData}
           renderItem={renderClassItem}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}

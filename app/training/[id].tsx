@@ -3,94 +3,24 @@ import { ImageBackground, ScrollView, StatusBar, StyleSheet, Text, TouchableOpac
 import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-
-interface TrainingDetail {
-  id: string;
-  category: string;
-  level: string;
-  title: string;
-  highlight: string;
-  duration: string;
-  booked: number;
-  capacity: number;
-  trainerName: string;
-  trainerBadge: string;
-  trainerImage: string;
-}
-
-const trainingData: Record<string, TrainingDetail> = {
-  'technique-morning': {
-    id: 'technique-morning',
-    category: 'Muay Thai',
-    level: 'Fortgeschritten',
-    title: 'Muay Thai',
-    highlight: 'Technik',
-    duration: '60 Min',
-    booked: 24,
-    capacity: 40,
-    trainerName: 'Alex Rivers',
-    trainerBadge: 'Pro',
-    trainerImage:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuD4EFulVX07EysCx3bp-xSTWevzL1E4C425l4WyTrN57TAkm6XHEbpEsuFtd9nJIa0QLPRL3y8s_nFF8Cb-pPIvLTEHMDSZFh6ioAQhm-6yg8JWjL6asg2fVU9rvYsJiTfD9Cps38-Q3hvplia9LDSLArVkL0ERr8WkiUEmdOdDDO0Ehvgn2tTH8fVpLBtD944fmAvJ6ppsBDQXdx_X5WhZt9mf8AHbgiMEM3kN4YyRZwAMg9jUWh5hoRrP4LTE4lLtd4hpp9zRvWbi',
-  },
-  'sparring-midday': {
-    id: 'sparring-midday',
-    category: 'Muay Thai',
-    level: 'Fortgeschritten',
-    title: 'Muay Thai',
-    highlight: 'Technik',
-    duration: '60 Min',
-    booked: 38,
-    capacity: 40,
-    trainerName: 'Alex Rivers',
-    trainerBadge: 'Pro',
-    trainerImage:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuD4EFulVX07EysCx3bp-xSTWevzL1E4C425l4WyTrN57TAkm6XHEbpEsuFtd9nJIa0QLPRL3y8s_nFF8Cb-pPIvLTEHMDSZFh6ioAQhm-6yg8JWjL6asg2fVU9rvYsJiTfD9Cps38-Q3hvplia9LDSLArVkL0ERr8WkiUEmdOdDDO0Ehvgn2tTH8fVpLBtD944fmAvJ6ppsBDQXdx_X5WhZt9mf8AHbgiMEM3kN4YyRZwAMg9jUWh5hoRrP4LTE4lLtd4hpp9zRvWbi',
-  },
-  'technique-evening': {
-    id: 'technique-evening',
-    category: 'Muay Thai',
-    level: 'Fortgeschritten',
-    title: 'Muay Thai',
-    highlight: 'Technik',
-    duration: '60 Min',
-    booked: 12,
-    capacity: 40,
-    trainerName: 'Alex Rivers',
-    trainerBadge: 'Pro',
-    trainerImage:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuD4EFulVX07EysCx3bp-xSTWevzL1E4C425l4WyTrN57TAkm6XHEbpEsuFtd9nJIa0QLPRL3y8s_nFF8Cb-pPIvLTEHMDSZFh6ioAQhm-6yg8JWjL6asg2fVU9rvYsJiTfD9Cps38-Q3hvplia9LDSLArVkL0ERr8WkiUEmdOdDDO0Ehvgn2tTH8fVpLBtD944fmAvJ6ppsBDQXdx_X5WhZt9mf8AHbgiMEM3kN4YyRZwAMg9jUWh5hoRrP4LTE4lLtd4hpp9zRvWbi',
-  },
-};
+import { trainingById, type TrainingItem } from './training-data';
 
 const TrainingDetailScreen: React.FC = () => {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { id, booked, capacity } = useLocalSearchParams<{
+  const { id } = useLocalSearchParams<{
     id?: string;
-    booked?: string;
-    capacity?: string;
   }>();
 
-  const training = useMemo<TrainingDetail>(() => {
-    if (id && trainingData[id]) {
-      return trainingData[id];
+  const training = useMemo<TrainingItem>(() => {
+    if (id && trainingById[id]) {
+      return trainingById[id];
     }
-    return trainingData['technique-morning'];
+    return trainingById['technique-morning'];
   }, [id]);
 
-  const bookedValue = useMemo(() => {
-    const parsed = Number(booked);
-    return Number.isFinite(parsed) ? parsed : training.booked;
-  }, [booked, training.booked]);
-
-  const capacityValue = useMemo(() => {
-    const parsed = Number(capacity);
-    return Number.isFinite(parsed) ? parsed : training.capacity;
-  }, [capacity, training.capacity]);
-
-  const availableValue = Math.max(capacityValue - bookedValue, 0);
-  const availabilityRatio = capacityValue > 0 ? availableValue / capacityValue : 0;
+  const availableValue = Math.max(training.capacity - training.booked, 0);
+  const availabilityRatio = training.capacity > 0 ? availableValue / training.capacity : 0;
 
   const handleBackPress = useCallback(() => {
     router.back();
@@ -140,7 +70,7 @@ const TrainingDetailScreen: React.FC = () => {
             </View>
             <View style={styles.metaItem}>
               <Feather name="users" size={16} color="#8a8a8f" />
-              <Text style={styles.metaText}>{`${capacityValue} Plätze gesamt`}</Text>
+              <Text style={styles.metaText}>{`${training.capacity} Plätze gesamt`}</Text>
             </View>
           </View>
         </View>
@@ -150,7 +80,7 @@ const TrainingDetailScreen: React.FC = () => {
           <Text style={styles.availabilityLabel}>VERFÜGBARKEIT</Text>
           <View style={styles.availabilityRow}>
             <Text style={styles.availabilityValue}>{availableValue}</Text>
-            <Text style={styles.availabilityTotal}>/ {capacityValue}</Text>
+            <Text style={styles.availabilityTotal}>/ {training.capacity}</Text>
             <Text style={styles.availabilityBadge}>Plätze frei</Text>
           </View>
           <View style={styles.progressTrack}>

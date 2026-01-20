@@ -22,7 +22,7 @@ const trainerImage =
 export const trainingData: TrainingItem[] = [
   {
     id: 'technique-morning',
-    time: '07:00 — 08:30',
+    time: '07:00 - 08:30',
     listTitle: 'Muay Thai Technik',
     coach: 'Kru Somchai',
     booked: 24,
@@ -39,7 +39,7 @@ export const trainingData: TrainingItem[] = [
   },
   {
     id: 'sparring-midday',
-    time: '12:00 — 13:30',
+    time: '12:00 - 13:30',
     listTitle: 'Muay Thai Sparring',
     coach: 'Kru Anan',
     booked: 38,
@@ -56,7 +56,7 @@ export const trainingData: TrainingItem[] = [
   },
   {
     id: 'technique-evening',
-    time: '17:30 — 19:00',
+    time: '17:30 - 19:00',
     listTitle: 'Muay Thai Technik',
     coach: 'Kru Malee',
     booked: 12,

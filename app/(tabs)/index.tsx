@@ -380,7 +380,7 @@ const styles = StyleSheet.create({
   },
   classListContent: {
     paddingTop: 8,
-    paddingBottom: 24,
+    paddingBottom: 120,
     gap: 16,
   },
   classCard: {

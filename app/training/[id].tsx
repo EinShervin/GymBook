@@ -3,6 +3,7 @@ import { ImageBackground, ScrollView, StatusBar, StyleSheet, Text, TouchableOpac
 import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { AccentColors } from '@/constants/theme';
 import { trainingById, type TrainingItem } from './training-data';
 
 const TrainingDetailScreen: React.FC = () => {
@@ -105,7 +106,7 @@ const TrainingDetailScreen: React.FC = () => {
 
       <View style={[styles.bottomBar, { paddingBottom: 24 + insets.bottom }]}>
         <View style={styles.bottomStatus}>
-          <Feather name="shield" size={12} color="#1e3a8a" />
+          <Feather name="shield" size={12} color={AccentColors.base} />
           <Text style={styles.bottomStatusText}>Abo-Zugang aktiv</Text>
         </View>
         <TouchableOpacity style={styles.confirmButton} activeOpacity={0.9} onPress={handleConfirmPress}>
@@ -165,14 +166,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 6,
-    backgroundColor: 'rgba(30,58,138,0.1)',
+    backgroundColor: AccentColors.tint10,
     borderWidth: 1,
-    borderColor: 'rgba(30,58,138,0.2)',
+    borderColor: AccentColors.tint20,
     fontSize: 10,
     fontWeight: '700',
     letterSpacing: 1.4,
     textTransform: 'uppercase',
-    color: '#1e3a8a',
+    color: AccentColors.base,
   },
   badgeSecondary: {
     paddingHorizontal: 10,
@@ -197,7 +198,7 @@ const styles = StyleSheet.create({
     lineHeight: 40,
   },
   titleHighlight: {
-    color: '#1e3a8a',
+    color: AccentColors.base,
   },
   metaRow: {
     flexDirection: 'row',
@@ -235,7 +236,7 @@ const styles = StyleSheet.create({
     width: 180,
     height: 180,
     borderRadius: 90,
-    backgroundColor: 'rgba(30,58,138,0.08)',
+    backgroundColor: AccentColors.tint08,
   },
   availabilityLabel: {
     fontSize: 11,
@@ -266,10 +267,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 6,
     borderRadius: 999,
-    backgroundColor: 'rgba(30,58,138,0.12)',
+    backgroundColor: AccentColors.tint12,
     borderWidth: 1,
-    borderColor: 'rgba(30,58,138,0.2)',
-    color: '#1e3a8a',
+    borderColor: AccentColors.tint20,
+    color: AccentColors.base,
     fontSize: 12,
     fontWeight: '700',
     textTransform: 'uppercase',
@@ -285,7 +286,7 @@ const styles = StyleSheet.create({
   progressFill: {
     height: '100%',
     borderRadius: 999,
-    backgroundColor: '#1e3a8a',
+    backgroundColor: AccentColors.base,
   },
   trainerRow: {
     marginTop: 26,
@@ -311,7 +312,7 @@ const styles = StyleSheet.create({
     borderRadius: 32,
   },
   trainerBadge: {
-    backgroundColor: '#1e3a8a',
+    backgroundColor: AccentColors.base,
     borderRadius: 10,
     paddingHorizontal: 6,
     paddingVertical: 2,
@@ -361,14 +362,14 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textTransform: 'uppercase',
     letterSpacing: 1.8,
-    color: 'rgba(30,58,138,0.9)',
+    color: AccentColors.tint90,
   },
   confirmButton: {
-    backgroundColor: '#1e3a8a',
+    backgroundColor: AccentColors.base,
     borderRadius: 16,
     paddingVertical: 16,
     alignItems: 'center',
-    shadowColor: '#1e3a8a',
+    shadowColor: AccentColors.base,
     shadowOpacity: 0.4,
     shadowRadius: 12,
     elevation: 4,

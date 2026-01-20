@@ -9,8 +9,9 @@ import {
   View,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { trainingById, type TrainingItem } from './training-data';
 
 interface BookingSummary {
   courseTitle: string;
@@ -21,26 +22,43 @@ interface BookingSummary {
   reservedCount: string;
 }
 
-const bookingSummary: BookingSummary = {
-  courseTitle: 'Muay Thai Technik',
-  date: 'Montag, 12. Juli',
-  time: '18:00 - 19:00 Uhr',
-  trainerName: 'Alex Rivers',
-  trainerImage:
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuD4EFulVX07EysCx3bp-xSTWevzL1E4C425l4WyTrN57TAkm6XHEbpEsuFtd9nJIa0QLPRL3y8s_nFF8Cb-pPIvLTEHMDSZFh6ioAQhm-6yg8JWjL6asg2fVU9rvYsJiTfD9Cps38-Q3hvplia9LDSLArVkL0ERr8WkiUEmdOdDDO0Ehvgn2tTH8fVpLBtD944fmAvJ6ppsBDQXdx_X5WhZt9mf8AHbgiMEM3kN4YyRZwAMg9jUWh5hoRrP4LTE4lLtd4hpp9zRvWbi',
-  reservedCount: '12/40',
-};
+const formatBookingDate = (date: Date): string =>
+  date.toLocaleDateString('de-DE', {
+    weekday: 'long',
+    day: '2-digit',
+    month: 'long',
+  });
 
 const BookingSuccessScreen: React.FC = () => {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const { id } = useLocalSearchParams<{ id?: string }>();
+
+  const training = React.useMemo<TrainingItem>(() => {
+    if (id && trainingById[id]) {
+      return trainingById[id];
+    }
+    return trainingById['technique-morning'];
+  }, [id]);
+
+  const bookingSummary = React.useMemo<BookingSummary>(() => {
+    const bookedCount = Math.min(training.booked + 1, training.capacity);
+    return {
+      courseTitle: training.listTitle,
+      date: formatBookingDate(new Date()),
+      time: training.time,
+      trainerName: training.trainerName,
+      trainerImage: training.trainerImage,
+      reservedCount: `${bookedCount}/${training.capacity}`,
+    };
+  }, [training]);
 
   const handleCalendarPress = useCallback(() => {
     console.log('Add to calendar');
   }, []);
 
   const handleDonePress = useCallback(() => {
-    router.back();
+    router.replace('/(tabs)');
   }, [router]);
 
   return (

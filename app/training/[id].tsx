@@ -31,8 +31,13 @@ const TrainingDetailScreen: React.FC = () => {
   }, []);
 
   const handleConfirmPress = useCallback(() => {
-    router.push('/training/booking-success');
-  }, [router]);
+    router.push({
+      pathname: '/training/booking-success',
+      params: {
+        id: training.id,
+      },
+    });
+  }, [router, training.id]);
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>

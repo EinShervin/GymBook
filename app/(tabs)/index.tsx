@@ -244,7 +244,7 @@ const HomeScreen: React.FC = () => {
           removeClippedSubviews
           maxToRenderPerBatch={6}
           windowSize={5}
-          getItemLayout={(_, index) => ({ length: 84, offset: 84 * index, index })}
+          getItemLayout={(_, index) => ({ length: 72, offset: 72 * index, index })}
         />
 
         <FlatList
@@ -333,16 +333,16 @@ const styles = StyleSheet.create({
     borderColor: '#2a2a2f',
   },
   dayList: {
-    marginBottom: 8,
+    marginBottom: 6,
   },
   dayListContent: {
     paddingRight: 12,
     gap: 12,
   },
   dayChip: {
-    width: 72,
-    height: 92,
-    borderRadius: 24,
+    width: 60,
+    height: 76,
+    borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -355,9 +355,9 @@ const styles = StyleSheet.create({
     borderColor: '#2b2b31',
   },
   dayLabel: {
-    fontSize: 12,
+    fontSize: 11,
     letterSpacing: 1.2,
-    marginBottom: 6,
+    marginBottom: 4,
   },
   dayLabelSelected: {
     color: '#0b0b0d',
@@ -368,7 +368,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   dayDate: {
-    fontSize: 22,
+    fontSize: 18,
   },
   dayDateSelected: {
     color: '#0b0b0d',

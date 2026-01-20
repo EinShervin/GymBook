@@ -54,7 +54,7 @@ const BookingSuccessScreen: React.FC = () => {
         showsVerticalScrollIndicator={false}>
         <View style={styles.iconWrapper}>
           <View style={styles.iconGlow} />
-          <MaterialIcons name="check-circle" size={120} color="#16c6d4" style={styles.icon} />
+          <MaterialIcons name="check-circle" size={120} color="#8b5cf6" style={styles.icon} />
         </View>
 
         <View style={styles.titleWrapper}>
@@ -102,7 +102,7 @@ const BookingSuccessScreen: React.FC = () => {
         </View>
 
         <View style={styles.reservedBadge}>
-          <MaterialIcons name="confirmation-number" size={16} color="#16c6d4" />
+          <MaterialIcons name="confirmation-number" size={16} color="#8b5cf6" />
           <Text style={styles.reservedText}>
             Dein Platz ist reserviert <Text style={styles.reservedCount}>({bookingSummary.reservedCount})</Text>
           </Text>
@@ -143,13 +143,13 @@ const styles = StyleSheet.create({
     width: 140,
     height: 140,
     borderRadius: 70,
-    backgroundColor: 'rgba(0,192,209,0.18)',
-    shadowColor: '#16c6d4',
+    backgroundColor: 'rgba(139,92,246,0.18)',
+    shadowColor: '#8b5cf6',
     shadowOpacity: 0.3,
     shadowRadius: 24,
   },
   icon: {
-    textShadowColor: 'rgba(22,198,212,0.6)',
+    textShadowColor: 'rgba(139,92,246,0.6)',
     textShadowRadius: 12,
   },
   titleWrapper: {
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: -1.4,
     fontStyle: 'italic',
-    color: '#16c6d4',
+    color: '#8b5cf6',
     marginTop: 4,
   },
   card: {
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     width: 160,
     height: 160,
     borderRadius: 80,
-    backgroundColor: 'rgba(22,198,212,0.08)',
+    backgroundColor: 'rgba(139,92,246,0.08)',
   },
   cardSection: {
     paddingBottom: 16,
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 3,
     textTransform: 'uppercase',
-    color: '#16c6d4',
+    color: '#8b5cf6',
     marginBottom: 6,
   },
   cardTitle: {
@@ -319,11 +319,11 @@ const styles = StyleSheet.create({
   },
   primaryButton: {
     borderRadius: 16,
-    backgroundColor: '#16c6d4',
+    backgroundColor: '#8b5cf6',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 16,
-    shadowColor: '#16c6d4',
+    shadowColor: '#8b5cf6',
     shadowOpacity: 0.35,
     shadowRadius: 18,
     elevation: 4,

@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
     fontSize: 12,
     letterSpacing: 3,
-    color: '#16c5d1',
+    color: '#8b5cf6',
   },
   calendarButton: {
     width: 42,

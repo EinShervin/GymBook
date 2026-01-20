@@ -1,5 +1,7 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import {
+  Animated,
+  Easing,
   ImageBackground,
   ScrollView,
   StatusBar,
@@ -34,6 +36,14 @@ const BookingSuccessScreen: React.FC = () => {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id?: string }>();
+  const iconScale = useRef(new Animated.Value(0.6)).current;
+  const iconOpacity = useRef(new Animated.Value(0)).current;
+  const glowScale = useRef(new Animated.Value(0.9)).current;
+  const glowOpacity = useRef(new Animated.Value(0.2)).current;
+  const cardTranslateY = useRef(new Animated.Value(32)).current;
+  const cardOpacity = useRef(new Animated.Value(0)).current;
+  const badgeTranslateY = useRef(new Animated.Value(16)).current;
+  const badgeOpacity = useRef(new Animated.Value(0)).current;
 
   const training = React.useMemo<TrainingItem>(() => {
     if (id && trainingById[id]) {
@@ -54,6 +64,99 @@ const BookingSuccessScreen: React.FC = () => {
     };
   }, [training]);
 
+  useEffect(() => {
+    const pulseAnimation = Animated.loop(
+      Animated.sequence([
+        Animated.parallel([
+          Animated.timing(glowScale, {
+            toValue: 1.05,
+            duration: 1200,
+            easing: Easing.out(Easing.quad),
+            useNativeDriver: true,
+          }),
+          Animated.timing(glowOpacity, {
+            toValue: 0.45,
+            duration: 1200,
+            easing: Easing.out(Easing.quad),
+            useNativeDriver: true,
+          }),
+        ]),
+        Animated.parallel([
+          Animated.timing(glowScale, {
+            toValue: 0.92,
+            duration: 1200,
+            easing: Easing.inOut(Easing.quad),
+            useNativeDriver: true,
+          }),
+          Animated.timing(glowOpacity, {
+            toValue: 0.2,
+            duration: 1200,
+            easing: Easing.inOut(Easing.quad),
+            useNativeDriver: true,
+          }),
+        ]),
+      ])
+    );
+
+    Animated.parallel([
+      Animated.timing(iconScale, {
+        toValue: 1,
+        duration: 520,
+        easing: Easing.out(Easing.back(1.2)),
+        useNativeDriver: true,
+      }),
+      Animated.timing(iconOpacity, {
+        toValue: 1,
+        duration: 360,
+        easing: Easing.out(Easing.quad),
+        useNativeDriver: true,
+      }),
+      Animated.timing(cardTranslateY, {
+        toValue: 0,
+        duration: 520,
+        delay: 120,
+        easing: Easing.out(Easing.cubic),
+        useNativeDriver: true,
+      }),
+      Animated.timing(cardOpacity, {
+        toValue: 1,
+        duration: 520,
+        delay: 120,
+        easing: Easing.out(Easing.quad),
+        useNativeDriver: true,
+      }),
+      Animated.timing(badgeTranslateY, {
+        toValue: 0,
+        duration: 480,
+        delay: 220,
+        easing: Easing.out(Easing.cubic),
+        useNativeDriver: true,
+      }),
+      Animated.timing(badgeOpacity, {
+        toValue: 1,
+        duration: 420,
+        delay: 220,
+        easing: Easing.out(Easing.quad),
+        useNativeDriver: true,
+      }),
+    ]).start();
+
+    pulseAnimation.start();
+
+    return () => {
+      pulseAnimation.stop();
+    };
+  }, [
+    badgeOpacity,
+    badgeTranslateY,
+    cardOpacity,
+    cardTranslateY,
+    glowOpacity,
+    glowScale,
+    iconOpacity,
+    iconScale,
+  ]);
+
   const handleCalendarPress = useCallback(() => {
     console.log('Add to calendar');
   }, []);
@@ -72,8 +175,18 @@ const BookingSuccessScreen: React.FC = () => {
         ]}
         showsVerticalScrollIndicator={false}>
         <View style={styles.iconWrapper}>
-          <View style={styles.iconGlow} />
-          <MaterialIcons name="check-circle" size={120} color={AccentColors.base} style={styles.icon} />
+          <Animated.View
+            style={[
+              styles.iconGlow,
+              {
+                opacity: glowOpacity,
+                transform: [{ scale: glowScale }],
+              },
+            ]}
+          />
+          <Animated.View style={{ opacity: iconOpacity, transform: [{ scale: iconScale }] }}>
+            <MaterialIcons name="check-circle" size={120} color={AccentColors.base} style={styles.icon} />
+          </Animated.View>
         </View>
 
         <View style={styles.titleWrapper}>
@@ -81,7 +194,7 @@ const BookingSuccessScreen: React.FC = () => {
           <Text style={styles.titleAccent}>Erfolgreich!</Text>
         </View>
 
-        <View style={styles.card}>
+        <Animated.View style={[styles.card, { opacity: cardOpacity, transform: [{ translateY: cardTranslateY }] }]}>
           <View style={styles.cardGlow} />
           <View style={styles.cardSection}>
             <Text style={styles.cardLabelPrimary}>Kurs</Text>
@@ -118,14 +231,21 @@ const BookingSuccessScreen: React.FC = () => {
               <Text style={styles.trainerName}>{bookingSummary.trainerName}</Text>
             </View>
           </View>
-        </View>
+        </Animated.View>
 
-        <View style={styles.reservedBadge}>
+        <Animated.View
+          style={[
+            styles.reservedBadge,
+            {
+              opacity: badgeOpacity,
+              transform: [{ translateY: badgeTranslateY }],
+            },
+          ]}>
           <MaterialIcons name="confirmation-number" size={16} color={AccentColors.base} />
           <Text style={styles.reservedText}>
             Dein Platz ist reserviert <Text style={styles.reservedCount}>({bookingSummary.reservedCount})</Text>
           </Text>
-        </View>
+        </Animated.View>
       </ScrollView>
 
       <View style={[styles.bottomBar, { paddingBottom: 24 + insets.bottom }]}>

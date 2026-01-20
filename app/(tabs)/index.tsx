@@ -55,6 +55,7 @@ const DayChip: React.FC<DayChipProps> = React.memo(({ day, isSelected, onSelect 
       <Text style={[styles.dayDate, isSelected ? styles.dayDateSelected : styles.dayDateDefault]}>
         {day.date}
       </Text>
+      {isSelected ? <View style={styles.dayDot} /> : null}
     </TouchableOpacity>
   );
 });
@@ -234,19 +235,21 @@ const HomeScreen: React.FC = () => {
           </TouchableOpacity>
         </View>
 
-        <FlatList
-          data={dayData}
-          renderItem={renderDayItem}
-          keyExtractor={(item) => item.id}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.dayList}
-          contentContainerStyle={styles.dayListContent}
-          removeClippedSubviews
-          maxToRenderPerBatch={6}
-          windowSize={5}
-          getItemLayout={(_, index) => ({ length: 84, offset: 84 * index, index })}
-        />
+        <View style={styles.dayCarousel}>
+          <FlatList
+            data={dayData}
+            renderItem={renderDayItem}
+            keyExtractor={(item) => item.id}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.dayList}
+            contentContainerStyle={styles.dayListContent}
+            removeClippedSubviews
+            maxToRenderPerBatch={7}
+            windowSize={5}
+            getItemLayout={(_, index) => ({ length: 68, offset: 68 * index, index })}
+          />
+        </View>
 
         <FlatList
           data={trainingData}
@@ -333,51 +336,63 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#2a2a2f',
   },
-  dayList: {
+  dayCarousel: {
     marginBottom: 8,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: '#1e2426',
+    backgroundColor: '#101214',
+    paddingVertical: 10,
+  },
+  dayList: {
+    paddingLeft: 10,
   },
   dayListContent: {
-    paddingRight: 12,
-    gap: 12,
+    paddingRight: 14,
+    gap: 10,
   },
   dayChip: {
-    width: 72,
-    height: 92,
-    borderRadius: 24,
+    width: 58,
+    height: 72,
     justifyContent: 'center',
     alignItems: 'center',
   },
   dayChipSelected: {
-    backgroundColor: '#f7f7f7',
+    backgroundColor: 'transparent',
   },
   dayChipDefault: {
-    backgroundColor: '#121215',
-    borderWidth: 1,
-    borderColor: '#2b2b31',
+    backgroundColor: 'transparent',
   },
   dayLabel: {
-    fontSize: 12,
-    letterSpacing: 1.2,
+    fontSize: 11,
+    letterSpacing: 1.6,
     marginBottom: 6,
   },
   dayLabelSelected: {
-    color: '#0b0b0d',
+    color: '#2fe6f3',
     fontWeight: '700',
   },
   dayLabelDefault: {
-    color: '#6b6b72',
-    fontWeight: '600',
+    color: '#2fe6f3',
+    opacity: 0,
   },
   dayDate: {
-    fontSize: 22,
+    fontSize: 26,
   },
   dayDateSelected: {
-    color: '#0b0b0d',
-    fontWeight: '700',
+    color: '#f2f4f5',
+    fontWeight: '600',
   },
   dayDateDefault: {
-    color: '#f7f7f7',
+    color: '#6e7478',
     fontWeight: '600',
+  },
+  dayDot: {
+    marginTop: 6,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#2fe6f3',
   },
   classListContent: {
     paddingTop: 8,
